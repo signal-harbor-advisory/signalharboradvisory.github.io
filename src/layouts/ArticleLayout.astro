@@ -1,0 +1,275 @@
+---
+// ArticleLayout.astro — wraps individual Insight articles.
+import Base from './Base.astro';
+import { SITE, hasLinkedIn } from '../config/site';
+
+interface Props {
+  title: string;
+  summary: string;
+  publishDate: Date;
+  topic: string;
+  readingTime: string;
+  slug: string;
+}
+
+const { title, summary, publishDate, topic, readingTime, slug } = Astro.props;
+
+const pageTitle       = `${title} | ${SITE.orgName}`;
+const canonicalPath   = `/insights/${slug}`;
+const pubDateIso      = publishDate.toISOString();
+const pubDateReadable = publishDate.toLocaleDateString('en-US', {
+  year: 'numeric', month: 'long', day: 'numeric',
+});
+
+const breadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home',    item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Insights', item: `${SITE.url}/insights` },
+    { '@type': 'ListItem', position: 3, name: title,      item: `${SITE.url}${canonicalPath}` },
+  ],
+});
+
+const articleLd = JSON.stringify({
+  '@context':        'https://schema.org',
+  '@type':           'Article',
+  headline:          title,
+  description:       summary,
+  author: {
+    '@type': 'Person',
+    name:    SITE.name,
+    url:     SITE.url,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name:    SITE.orgName,
+    url:     SITE.url,
+  },
+  datePublished: pubDateIso,
+  url: `${SITE.url}${canonicalPath}`,
+});
+---
+
+<Base
+  title={pageTitle}
+  description={summary}
+  canonicalPath={canonicalPath}
+  ogType="article"
+  publishDate={pubDateIso}
+  jsonLd={[breadcrumbLd, articleLd]}
+  currentPath={canonicalPath}
+>
+  <article class="article-page">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb container" aria-label="Breadcrumb">
+      <ol role="list">
+        <li><a href="/">Home</a></li>
+        <li aria-hidden="true" class="breadcrumb__sep">›</li>
+        <li><a href="/insights">Insights</a></li>
+        <li aria-hidden="true" class="breadcrumb__sep">›</li>
+        <li aria-current="page">{title}</li>
+      </ol>
+    </nav>
+
+    <!-- Article header -->
+    <header class="article-header section section--ivory">
+      <div class="container article-header__inner">
+        <p class="section-label">{topic}</p>
+        <h1>{title}</h1>
+        <p class="article-header__summary">{summary}</p>
+        <div class="article-header__meta">
+          <span>By {SITE.name}</span>
+          <span aria-hidden="true" class="meta-sep">·</span>
+          <time datetime={pubDateIso}>{pubDateReadable}</time>
+          <span aria-hidden="true" class="meta-sep">·</span>
+          <span>{readingTime}</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Article body -->
+    <div class="section section--paper">
+      <div class="container">
+        <div class="prose article-body">
+          <slot />
+        </div>
+
+        <!-- Author attribution -->
+        <aside class="author-block" aria-label="About the author">
+          <div class="author-block__inner">
+            <div>
+              <p class="author-block__name">{SITE.name}</p>
+              <p class="author-block__title">{SITE.descriptor}</p>
+            </div>
+            <a
+              href={hasLinkedIn ? SITE.linkedInUrl : '#'}
+              class="btn btn--secondary"
+              target={hasLinkedIn ? '_blank' : undefined}
+              rel={hasLinkedIn ? 'noopener noreferrer' : undefined}
+              data-placeholder={hasLinkedIn ? undefined : 'true'}
+            >
+              View on LinkedIn
+            </a>
+          </div>
+          <!-- Article footer notice -->
+          <p class="article-notice">
+            These perspectives are based on Arun's professional judgment and publicly appropriate experience.
+            They do not disclose confidential or proprietary information and do not represent the views of
+            any current or former employer.
+          </p>
+          <p class="article-notice">
+            This content is provided for general informational purposes and does not constitute legal,
+            investment, regulatory or other professional advice.
+            <em>Final legal language requires review and approval before publication.</em>
+          </p>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Closing CTA -->
+    <section class="section section--stone" aria-labelledby="article-cta-heading">
+      <div class="container article-cta">
+        <h2 id="article-cta-heading">Facing a consequential technology decision?</h2>
+        <p>
+          Begin with a confidential inquiry about your specific situation.
+        </p>
+        <div class="article-cta__actions">
+          <a href="/contact" class="btn btn--primary">{SITE.primaryCta}</a>
+          <a href="/insights" class="btn btn--secondary">Read More Perspectives</a>
+        </div>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  /* Breadcrumb */
+  .breadcrumb {
+    padding-block: var(--sp-5) 0;
+  }
+
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .breadcrumb a {
+    font-size: var(--text-sm);
+    color: var(--color-slate-blue);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .breadcrumb a:hover {
+    color: var(--color-ink-navy);
+  }
+
+  .breadcrumb li[aria-current='page'] {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+  }
+
+  .breadcrumb__sep {
+    color: var(--color-hairline);
+    font-size: var(--text-sm);
+  }
+
+  /* Article header */
+  .article-header__inner {
+    max-width: var(--reading-width);
+    padding-top: var(--sp-7);
+    padding-bottom: var(--sp-7);
+  }
+
+  .article-header__summary {
+    font-size: var(--text-xl);
+    color: var(--color-slate);
+    margin-top: var(--sp-5);
+    margin-bottom: var(--sp-5);
+  }
+
+  .article-header__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-3);
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+    font-family: var(--font-sans);
+  }
+
+  .meta-sep {
+    color: var(--color-hairline);
+  }
+
+  /* Article body */
+  .article-body {
+    padding-bottom: var(--sp-8);
+    border-bottom: var(--border-hairline);
+    margin-bottom: var(--sp-8);
+  }
+
+  /* Author block */
+  .author-block__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--sp-5);
+    margin-bottom: var(--sp-6);
+  }
+
+  .author-block__name {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-base);
+    color: var(--color-ink-navy);
+    max-width: none;
+    margin-bottom: var(--sp-1);
+  }
+
+  .author-block__title {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+    max-width: none;
+  }
+
+  .article-notice {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+    max-width: var(--reading-width);
+    margin-bottom: var(--sp-3);
+  }
+
+  .article-notice em {
+    color: var(--color-muted-bronze);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  /* Closing CTA */
+  .article-cta {
+    max-width: 680px;
+  }
+
+  .article-cta h2 {
+    margin-bottom: var(--sp-4);
+  }
+
+  .article-cta p {
+    margin-bottom: var(--sp-6);
+  }
+
+  .article-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+  }
+</style>

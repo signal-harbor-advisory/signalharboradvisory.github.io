@@ -1,0 +1,398 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionLabel from '../components/ui/SectionLabel.astro';
+import Button from '../components/ui/Button.astro';
+import { SITE } from '../config/site';
+
+const title       = `Experience and Perspective | ${SITE.orgName}`;
+const description = "Explore Arun Arunachalam's public professional background and perspective across financial services, global markets, enterprise technology and transformation leadership.";
+---
+
+<Base title={title} description={description} canonicalPath="/experience" currentPath="/experience">
+
+  <!-- Hero -->
+  <section class="section section--ivory" aria-labelledby="exp-hero-heading">
+    <div class="container exp-hero">
+      <SectionLabel>Experience and Perspective</SectionLabel>
+      <h1 id="exp-hero-heading">Technology leadership shaped by more than two decades in complex financial environments.</h1>
+      <p class="exp-hero__body">
+        My career has spanned financial technology, global markets, capital markets technology,
+        enterprise platforms, engineering leadership, data, cloud and operational resilience.
+      </p>
+      <p class="exp-hero__body">
+        That experience informs how I evaluate transformation through the combined lens of
+        business priorities, architecture, organizational readiness, governance, risk and execution.
+      </p>
+    </div>
+  </section>
+
+  <!-- Professional foundation -->
+  <section class="section section--paper" aria-labelledby="foundation-heading">
+    <div class="container foundation">
+      <h2 id="foundation-heading">Experience that strengthens judgment without compromising confidentiality.</h2>
+      <div class="foundation__body">
+        <p>
+          I have spent more than two decades working at the intersection of financial services and
+          technology, including extensive leadership experience in global markets environments.
+        </p>
+        <p>
+          My work has involved partnering with business executives, technology leaders, architects,
+          engineers, operations teams and governance stakeholders to address complex technology and
+          organizational challenges.
+        </p>
+        <p>
+          The value I bring to advisory conversations is not access to an employer's internal
+          information. It is the professional judgment developed through years of leading people,
+          evaluating difficult choices and operating in environments where technology decisions
+          carry significant business and operational consequences.
+        </p>
+
+        <!-- Career statement -->
+        <blockquote class="career-statement">
+          Arun has held senior technology leadership roles within a major global financial
+          institution during an extensive career spanning financial services, global markets
+          and enterprise technology.
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Areas of experience -->
+  <section class="section section--stone" aria-labelledby="areas-heading">
+    <div class="container">
+      <SectionLabel>Areas of Experience</SectionLabel>
+      <h2 id="areas-heading">Where the work has concentrated.</h2>
+      <div class="areas-grid">
+        {[
+          {
+            label: 'Financial Services and Capital Markets',
+            items: [
+              'Global markets technology',
+              'Capital markets platforms',
+              'Trading and risk technology',
+              'Enterprise data',
+              'Business and technology alignment',
+              'Technology transformation in regulated environments',
+            ],
+          },
+          {
+            label: 'Technology Transformation',
+            items: [
+              'Platform modernization strategy',
+              'Architecture and investment prioritization',
+              'Cloud and infrastructure direction',
+              'Data strategy and governance',
+              'AI enabled transformation',
+              'Operational resilience',
+            ],
+          },
+          {
+            label: 'Engineering Leadership',
+            items: [
+              'Global engineering leadership',
+              'Operating models and accountability',
+              'Transformation governance',
+              'Platform ownership',
+              'Distributed delivery',
+              'Executive stakeholder communication',
+            ],
+          },
+        ].map((area) => (
+          <div class="area-card">
+            <h3 class="area-card__label">{area.label}</h3>
+            <ul role="list">
+              {area.items.map((item) => (
+                <li class="area-card__item">{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership perspective -->
+  <section class="section section--ivory" aria-labelledby="lp-heading">
+    <div class="container lp">
+      <SectionLabel>Leadership Perspective</SectionLabel>
+      <blockquote id="lp-heading">
+        Transformation is an operating responsibility, not only an architecture exercise.
+      </blockquote>
+      <p>
+        Technology transformation requires leaders to align business outcomes, platform choices,
+        organizational capacity, risk, governance and execution.
+      </p>
+      <p>
+        My perspective is shaped by having operated across those boundaries. I understand the
+        tension between long term modernization and immediate business commitments, and why
+        credible transformation plans must address both.
+      </p>
+    </div>
+  </section>
+
+  <!-- Advisory relevance -->
+  <section class="section section--paper" aria-labelledby="relevance-heading">
+    <div class="container">
+      <SectionLabel>Advisory Relevance</SectionLabel>
+      <h2 id="relevance-heading">What this experience brings to advisory conversations.</h2>
+      <div class="relevance-grid">
+        {[
+          {
+            label: 'Strategy grounded in execution',
+            copy:  'Recommendations should account for how organizations fund, govern, deliver and operate technology, not only what an ideal target state looks like.',
+          },
+          {
+            label: 'Business and technology fluency',
+            copy:  'Complex decisions require communication across executives, business sponsors, architects, engineers, operations and control functions.',
+          },
+          {
+            label: 'Resilience as a design principle',
+            copy:  'Modernization must strengthen the organization\'s ability to operate reliably through change.',
+          },
+          {
+            label: 'Independent judgment',
+            copy:  'Advisory work must remain free from product selling incentives while respecting confidentiality, conflicts and professional obligations.',
+          },
+        ].map((r) => (
+          <div class="relevance-item">
+            <h3 class="relevance-item__label">{r.label}</h3>
+            <p class="relevance-item__copy">{r.copy}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section class="section section--stone" aria-labelledby="edu-heading">
+    <div class="container edu">
+      <SectionLabel>Education</SectionLabel>
+      <h2 id="edu-heading">Academic foundation.</h2>
+      <div class="credential">
+        <p class="credential__degree">Bachelor of Science in Chemical Engineering</p>
+        <p class="credential__institution">Anna University, Chennai, India</p>
+      </div>
+      <p class="edu__note">
+        Only verified and publicly appropriate credentials are listed here.
+      </p>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="section section--navy" aria-labelledby="exp-close-heading">
+    <div class="container exp-close">
+      <h2 id="exp-close-heading">Experience is most valuable when it improves the next decision.</h2>
+      <p>
+        I bring an operator's understanding of platform complexity, organizational constraints
+        and execution risk to strategic technology conversations.
+      </p>
+      <div class="exp-close__actions">
+        <Button href="/contact" variant="secondary">{SITE.primaryCta}</Button>
+        <Button href="/about" variant="ghost">Learn More About Arun →</Button>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .exp-hero {
+    max-width: 780px;
+    padding-block: var(--sp-9) var(--sp-10);
+  }
+
+  .exp-hero h1 {
+    margin-block: var(--sp-4) var(--sp-6);
+  }
+
+  .exp-hero__body {
+    font-size: var(--text-xl);
+    margin-bottom: var(--sp-5);
+  }
+
+  /* Foundation */
+  .foundation {
+    max-width: var(--reading-width);
+  }
+
+  .foundation h2 {
+    margin-bottom: var(--sp-7);
+  }
+
+  .foundation__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+  }
+
+  .career-statement {
+    margin: var(--sp-5) 0 0;
+    font-size: var(--text-xl);
+  }
+
+  /* Areas */
+  .areas-grid {
+    margin-top: var(--sp-8);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+  }
+
+  @media (min-width: 768px) {
+    .areas-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .area-card {
+    padding: var(--sp-6);
+    background-color: var(--color-paper);
+    border: var(--border-hairline);
+    border-radius: var(--radius-lg);
+  }
+
+  .area-card__label {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-ink-navy);
+    margin-bottom: var(--sp-5);
+    padding-bottom: var(--sp-4);
+    border-bottom: var(--border-hairline);
+  }
+
+  .area-card ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    list-style: none;
+    padding: 0;
+  }
+
+  .area-card__item {
+    font-size: var(--text-sm);
+    color: var(--color-charcoal);
+    padding-left: var(--sp-4);
+    position: relative;
+  }
+
+  .area-card__item::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--color-muted-bronze);
+    font-size: var(--text-xs);
+  }
+
+  /* Leadership perspective */
+  .lp {
+    max-width: var(--reading-width);
+  }
+
+  .lp blockquote {
+    margin-block: var(--sp-4) var(--sp-6);
+  }
+
+  .lp p {
+    margin-bottom: var(--sp-5);
+  }
+
+  /* Advisory relevance */
+  .relevance-grid {
+    margin-top: var(--sp-8);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+  }
+
+  @media (min-width: 768px) {
+    .relevance-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .relevance-item {
+    padding: var(--sp-6) 0;
+    border-top: var(--border-hairline);
+  }
+
+  .relevance-item__label {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-ink-navy);
+    margin-bottom: var(--sp-3);
+  }
+
+  .relevance-item__copy {
+    font-size: var(--text-base);
+    color: var(--color-slate);
+  }
+
+  /* Education */
+  .edu {
+    max-width: 560px;
+  }
+
+  .edu h2 {
+    margin-block: var(--sp-4) var(--sp-7);
+  }
+
+  .credential {
+    padding: var(--sp-6);
+    background-color: var(--color-paper);
+    border: var(--border-hairline);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--sp-5);
+  }
+
+  .credential__degree {
+    font-weight: 600;
+    color: var(--color-ink-navy);
+    font-size: var(--text-lg);
+    max-width: none;
+    margin-bottom: var(--sp-2);
+  }
+
+  .credential__institution {
+    font-size: var(--text-base);
+    color: var(--color-slate);
+    max-width: none;
+  }
+
+  .edu__note {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+    font-style: italic;
+  }
+
+  /* Closing */
+  .exp-close {
+    max-width: 640px;
+  }
+
+  .exp-close h2 {
+    color: var(--color-white);
+    margin-bottom: var(--sp-5);
+  }
+
+  .exp-close p {
+    color: rgba(255,255,255,0.85);
+    margin-bottom: var(--sp-7);
+  }
+
+  .exp-close__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+
+  .exp-close__actions .btn--ghost {
+    color: rgba(255,255,255,0.7);
+  }
+
+  .exp-close__actions .btn--ghost:hover {
+    color: var(--color-white);
+  }
+</style>

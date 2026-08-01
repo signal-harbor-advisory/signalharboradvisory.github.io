@@ -1,0 +1,172 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionLabel from '../components/ui/SectionLabel.astro';
+import Button from '../components/ui/Button.astro';
+import { SITE } from '../config/site';
+
+const title       = `Privacy Notice | ${SITE.orgName}`;
+const description = 'Privacy notice for signalharboradvisory.com and Signal Harbor Advisory. Covers information collected, how it is used, retention, contact and updates.';
+---
+
+<Base title={title} description={description} canonicalPath="/privacy" currentPath="/privacy" noIndex={true}>
+
+  <!-- Notice banner -->
+  <div class="notice-banner" role="status">
+    <div class="container">
+      <strong>Placeholder document.</strong> Final legal language is required before publication.
+      This page is not suitable for public release in its current form.
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="section section--ivory" aria-labelledby="privacy-hero-heading">
+    <div class="container legal-hero">
+      <SectionLabel>Privacy Notice</SectionLabel>
+      <h1 id="privacy-hero-heading">Privacy Notice</h1>
+      <p class="legal-hero__meta">
+        Last updated: placeholder date — final date to be confirmed before publication.
+      </p>
+    </div>
+  </section>
+
+  <!-- Body -->
+  <section class="section section--paper" aria-label="Privacy notice content">
+    <div class="container legal-body">
+
+      <div class="legal-placeholder-notice" role="alert">
+        <p>
+          <strong>Final legal language required — not for publication.</strong> The section
+          headings below reflect the approved structure. All substantive legal language must
+          be reviewed and confirmed by qualified legal counsel before this page is published.
+        </p>
+      </div>
+
+      <section class="legal-section" aria-labelledby="privacy-collected-heading">
+        <h2 id="privacy-collected-heading">Information collected</h2>
+        <p class="legal-placeholder">
+          [Final legal language required. This section will describe what information is
+          collected through the website and inquiry form, including name, organization,
+          role, business email and inquiry details. It will also address any automatically
+          collected technical information such as IP address and browser type.]
+        </p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="privacy-use-heading">
+        <h2 id="privacy-use-heading">How it is used</h2>
+        <p class="legal-placeholder">
+          [Final legal language required. This section will describe how collected
+          information is used, limited to reviewing and responding to inquiries and
+          operating the website. It will confirm that information will not be sold,
+          shared with third parties for marketing purposes or used beyond the stated scope.]
+        </p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="privacy-retention-heading">
+        <h2 id="privacy-retention-heading">Retention</h2>
+        <p class="legal-placeholder">
+          [Final legal language required. This section will describe how long information
+          is retained and the basis for retention periods.]
+        </p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="privacy-contact-heading">
+        <h2 id="privacy-contact-heading">Contact</h2>
+        <p class="legal-placeholder">
+          [Final legal language required. This section will provide the appropriate
+          contact method for privacy-related questions or requests.]
+        </p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="privacy-updates-heading">
+        <h2 id="privacy-updates-heading">Updates</h2>
+        <p class="legal-placeholder">
+          [Final legal language required. This section will describe how changes to this
+          privacy notice will be communicated and when updates take effect.]
+        </p>
+      </section>
+
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="section section--ivory" aria-label="Return navigation">
+    <div class="container legal-close">
+      <Button href="/" variant="secondary">Return to Homepage</Button>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  /* Notice banner */
+  .notice-banner {
+    background-color: #7C3A1E;
+    color: var(--color-white);
+    padding-block: var(--sp-3);
+    font-size: var(--text-sm);
+  }
+
+  /* Hero */
+  .legal-hero {
+    max-width: 720px;
+    padding-block: var(--sp-8) var(--sp-9);
+  }
+
+  .legal-hero h1 {
+    margin-block: var(--sp-4) var(--sp-3);
+  }
+
+  .legal-hero__meta {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+    font-style: italic;
+  }
+
+  /* Body */
+  .legal-body {
+    max-width: var(--reading-width);
+  }
+
+  .legal-placeholder-notice {
+    padding: var(--sp-5) var(--sp-6);
+    background-color: #FFF3CD;
+    border: 1px solid #D4A017;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--sp-8);
+  }
+
+  .legal-placeholder-notice p {
+    font-size: var(--text-sm);
+    color: #5A3E00;
+    margin: 0;
+  }
+
+  .legal-section {
+    margin-bottom: var(--sp-8);
+    padding-bottom: var(--sp-7);
+    border-bottom: var(--border-hairline);
+  }
+
+  .legal-section:last-child {
+    border-bottom: none;
+  }
+
+  .legal-section h2 {
+    font-family: var(--font-sans);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--color-ink-navy);
+    margin-bottom: var(--sp-4);
+  }
+
+  .legal-placeholder {
+    font-size: var(--text-base);
+    color: var(--color-slate);
+    font-style: italic;
+  }
+
+  /* Close */
+  .legal-close {
+    padding-block: var(--sp-7);
+  }
+</style>

@@ -1,0 +1,218 @@
+---
+// Footer.astro
+import { SITE, hasLinkedIn } from '../../config/site';
+
+const isLinkedInPlaceholder = !hasLinkedIn;
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer__inner">
+
+      <!-- Identity -->
+      <div class="footer__identity">
+        <p class="footer__name">{SITE.orgName}</p>
+        <p class="footer__descriptor">{SITE.name}, {SITE.descriptor}</p>
+        <p class="footer__pillars">{SITE.positioningLine}</p>
+        <p class="footer__location">{SITE.location}</p>
+      </div>
+
+      <!-- Navigation columns -->
+      <nav class="footer__nav" aria-label="Footer navigation">
+        <div class="footer__nav-col">
+          <p class="footer__nav-heading">Advisory</p>
+          <ul role="list">
+            <li><a href="/advisory" class="footer__link">Advisory Services</a></li>
+            <li><a href="/advisory#ways-to-engage" class="footer__link">Ways to Engage</a></li>
+            <li><a href="/advisory#expert-consultations" class="footer__link">Expert Consultations</a></li>
+          </ul>
+        </div>
+        <div class="footer__nav-col">
+          <p class="footer__nav-heading">About</p>
+          <ul role="list">
+            <li><a href="/experience" class="footer__link">Experience</a></li>
+            <li><a href="/about" class="footer__link">About Arun</a></li>
+            <li><a href="/insights" class="footer__link">Insights</a></li>
+          </ul>
+        </div>
+        <div class="footer__nav-col">
+          <p class="footer__nav-heading">Contact</p>
+          <ul role="list">
+            <li><a href="/contact" class="footer__link">Discuss an Advisory Need</a></li>
+            <li>
+              <a
+                href={isLinkedInPlaceholder ? '#' : SITE.linkedInUrl}
+                class="footer__link"
+                target={isLinkedInPlaceholder ? undefined : '_blank'}
+                rel={isLinkedInPlaceholder ? undefined : 'noopener noreferrer'}
+                data-placeholder={isLinkedInPlaceholder ? 'true' : undefined}
+              >
+                LinkedIn
+                {!isLinkedInPlaceholder && <span class="sr-only"> (opens in new tab)</span>}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+    </div>
+
+    <!-- Footer bottom bar -->
+    <div class="footer__bottom">
+      <p class="footer__legal">
+        &copy; {year} {SITE.orgName}. All rights reserved.
+      </p>
+      <div class="footer__legal-links">
+        <a href="/privacy" class="footer__link footer__link--small">Privacy</a>
+        <span aria-hidden="true" class="footer__sep">·</span>
+        <a href="/terms" class="footer__link footer__link--small">Terms and Disclaimer</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--color-ink-navy);
+    color: var(--color-white);
+    padding-block: var(--sp-9) var(--sp-7);
+    margin-top: auto;
+  }
+
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-8);
+    padding-bottom: var(--sp-8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    margin-bottom: var(--sp-6);
+  }
+
+  @media (min-width: 768px) {
+    .footer__inner {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .footer__inner {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+
+  /* Identity */
+  .footer__name {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-white);
+    max-width: none;
+    margin-bottom: var(--sp-2);
+  }
+
+  .footer__descriptor {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.7);
+    max-width: none;
+    margin-bottom: var(--sp-5);
+  }
+
+  .footer__pillars {
+    font-size: var(--text-xs);
+    color: var(--color-muted-bronze);
+    letter-spacing: var(--tracking-normal);
+    max-width: none;
+    margin-bottom: var(--sp-3);
+  }
+
+  .footer__location {
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.5);
+    max-width: none;
+  }
+
+  /* Nav */
+  .footer__nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-6);
+  }
+
+  @media (max-width: 480px) {
+    .footer__nav {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer__nav-col:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .footer__nav-heading {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    max-width: none;
+    margin-bottom: var(--sp-4);
+  }
+
+  .footer__nav-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .footer__link {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    line-height: var(--leading-normal);
+  }
+
+  .footer__link:hover {
+    color: var(--color-white);
+  }
+
+  .footer__link:focus-visible {
+    outline: 2px solid var(--color-muted-bronze);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Bottom bar */
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+  }
+
+  .footer__legal {
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.4);
+    max-width: none;
+  }
+
+  .footer__legal-links {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+
+  .footer__link--small {
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .footer__sep {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: var(--text-xs);
+  }
+</style>

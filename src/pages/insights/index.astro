@@ -1,0 +1,307 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionLabel from '../../components/ui/SectionLabel.astro';
+import Button from '../../components/ui/Button.astro';
+import { SITE } from '../../config/site';
+import { getCollection } from 'astro:content';
+
+const title       = `Technology Transformation Insights | ${SITE.orgName}`;
+const description = 'Executive perspectives on capital markets technology, AI adoption, platform modernization, engineering leadership, data strategy and operational resilience.';
+
+const allInsights = await getCollection('insights', ({ data }) => !data.draft);
+allInsights.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+const themes = [
+  { label: 'Capital Markets and Critical Platforms', copy: 'Perspectives on platform strategy, legacy complexity, modernization sequencing, architecture, data dependencies and operational resilience within financial services.' },
+  { label: 'Enterprise AI Adoption', copy: 'Practical considerations for moving from isolated AI experiments toward governed adoption connected to business priorities, data readiness and organizational capability.' },
+  { label: 'Engineering Leadership', copy: 'Observations on operating models, accountability, global delivery, platform ownership and the leadership conditions required for dependable execution.' },
+  { label: 'Data and Cloud Strategy', copy: 'Executive questions concerning data foundations, cloud direction, governance, modernization and the relationship between infrastructure choices and business outcomes.' },
+  { label: 'Operational Resilience', copy: 'How leaders can treat resilience as an architectural and organizational principle rather than a final control exercise.' },
+  { label: 'Transformation Governance', copy: 'Perspectives on executive sponsorship, investment choices, decision rights, risk visibility and sustaining transformation beyond initial delivery.' },
+];
+---
+
+<Base title={title} description={description} canonicalPath="/insights" currentPath="/insights">
+
+  <!-- Hero -->
+  <section class="section section--ivory" aria-labelledby="insights-hero-heading">
+    <div class="container insights-hero">
+      <SectionLabel>Insights</SectionLabel>
+      <h1 id="insights-hero-heading">Perspective for leaders navigating consequential technology change.</h1>
+      <p class="insights-hero__body">
+        Reflections on capital markets technology, enterprise AI adoption, platform modernization,
+        engineering leadership, data strategy and operational resilience.
+      </p>
+      <p class="insights-hero__body">
+        The focus is not technology news. It is the leadership judgment required to make complex
+        transformation decisions responsibly.
+      </p>
+    </div>
+  </section>
+
+  <!-- What you will find -->
+  <section class="section section--paper" aria-labelledby="find-heading">
+    <div class="container find">
+      <h2 id="find-heading">Practical thinking at the intersection of strategy and execution.</h2>
+      <p>
+        Technology leaders are rarely choosing between a clearly right and clearly wrong answer.
+        They are balancing competing priorities: modernization and continuity, innovation and
+        control, speed and resilience, enterprise standards and business differentiation.
+      </p>
+      <p>
+        These perspectives examine those tensions and the questions executives should consider
+        before committing to a roadmap, operating model or major technology investment.
+      </p>
+    </div>
+  </section>
+
+  <!-- Content themes -->
+  <section class="section section--stone" aria-labelledby="themes-heading">
+    <div class="container">
+      <SectionLabel>Content Themes</SectionLabel>
+      <h2 id="themes-heading">Where the perspectives concentrate.</h2>
+      <div class="themes-grid">
+        {themes.map((theme) => (
+          <div class="theme-item">
+            <h3 class="theme-item__label">{theme.label}</h3>
+            <p class="theme-item__copy">{theme.copy}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Article archive -->
+  <section class="section section--paper" aria-labelledby="archive-heading">
+    <div class="container">
+      <SectionLabel>Perspectives</SectionLabel>
+      <h2 id="archive-heading">Published thinking.</h2>
+
+      <div class="article-list">
+        {allInsights.map((insight) => {
+          const pubDate = insight.data.publishDate.toLocaleDateString('en-US', {
+            year: 'numeric', month: 'long', day: 'numeric',
+          });
+          return (
+            <article class="article-row" aria-labelledby={`insight-${insight.id}`}>
+              <div class="article-row__meta">
+                <span class="article-row__topic">{insight.data.topic}</span>
+              </div>
+              <h3 class="article-row__title" id={`insight-${insight.id}`}>
+                <a href={`/insights/${insight.id}`}>{insight.data.title}</a>
+              </h3>
+              <p class="article-row__summary">{insight.data.summary}</p>
+              <div class="article-row__footer">
+                <span class="article-row__date">
+                  <time datetime={insight.data.publishDate.toISOString()}>{pubDate}</time>
+                </span>
+                <span class="article-row__reading">{insight.data.readingTime}</span>
+                <a href={`/insights/${insight.id}`} class="article-row__cta">
+                  Read Perspective <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="section section--navy" aria-labelledby="insights-close-heading">
+    <div class="container insights-close">
+      <h2 id="insights-close-heading">Better decisions begin with better questions.</h2>
+      <p>
+        Explore perspectives on the technology, organizational and operating choices that
+        shape complex transformation.
+      </p>
+      <div class="insights-close__actions">
+        {allInsights[0] && (
+          <Button href={`/insights/${allInsights[0].id}`} variant="secondary">
+            Read the Latest Perspective
+          </Button>
+        )}
+        <Button href="/contact" variant="ghost">{SITE.primaryCta} →</Button>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .insights-hero {
+    max-width: 760px;
+    padding-block: var(--sp-9) var(--sp-10);
+  }
+
+  .insights-hero h1 {
+    margin-block: var(--sp-4) var(--sp-6);
+  }
+
+  .insights-hero__body {
+    font-size: var(--text-xl);
+    margin-bottom: var(--sp-5);
+  }
+
+  /* Find */
+  .find {
+    max-width: var(--reading-width);
+  }
+
+  .find h2 {
+    margin-bottom: var(--sp-6);
+  }
+
+  .find p {
+    margin-bottom: var(--sp-5);
+  }
+
+  /* Themes */
+  .themes-grid {
+    margin-top: var(--sp-8);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+  }
+
+  @media (min-width: 768px) {
+    .themes-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .theme-item {
+    padding: var(--sp-6) 0;
+    border-top: var(--border-hairline);
+  }
+
+  .theme-item__label {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-ink-navy);
+    margin-bottom: var(--sp-3);
+  }
+
+  .theme-item__copy {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+  }
+
+  /* Article list */
+  .article-list {
+    margin-top: var(--sp-8);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .article-row {
+    padding-block: var(--sp-7);
+    border-top: var(--border-hairline);
+    max-width: 760px;
+  }
+
+  .article-row__meta {
+    margin-bottom: var(--sp-3);
+  }
+
+  .article-row__topic {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-muted-bronze);
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .article-row__title {
+    font-family: var(--font-serif);
+    font-size: clamp(var(--text-2xl), 2.5vw, var(--text-3xl));
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    margin-bottom: var(--sp-4);
+  }
+
+  .article-row__title a {
+    text-decoration: none;
+    color: var(--color-ink-navy);
+    transition: color var(--transition-fast);
+  }
+
+  .article-row__title a:hover {
+    color: var(--color-slate-blue);
+  }
+
+  .article-row__title a:focus-visible {
+    outline: 2px solid var(--color-slate-blue);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  .article-row__summary {
+    font-size: var(--text-lg);
+    color: var(--color-slate);
+    margin-bottom: var(--sp-5);
+  }
+
+  .article-row__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-4);
+  }
+
+  .article-row__date,
+  .article-row__reading {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+  }
+
+  .article-row__cta {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-slate-blue);
+    text-decoration: none;
+    margin-left: auto;
+    transition: color var(--transition-fast);
+  }
+
+  .article-row__cta:hover {
+    color: var(--color-ink-navy);
+  }
+
+  .article-row__cta:focus-visible {
+    outline: 2px solid var(--color-slate-blue);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Closing */
+  .insights-close {
+    max-width: 600px;
+  }
+
+  .insights-close h2 {
+    color: var(--color-white);
+    margin-bottom: var(--sp-5);
+  }
+
+  .insights-close p {
+    color: rgba(255,255,255,0.85);
+    margin-bottom: var(--sp-7);
+  }
+
+  .insights-close__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+
+  .insights-close__actions .btn--ghost {
+    color: rgba(255,255,255,0.7);
+  }
+
+  .insights-close__actions .btn--ghost:hover {
+    color: var(--color-white);
+  }
+</style>

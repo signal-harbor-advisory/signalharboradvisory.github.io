@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/ui/Button.astro';
+import { SITE } from '../config/site';
+
+const title       = `Page Not Found | ${SITE.orgName}`;
+const description = 'The page you are looking for could not be found.';
+---
+
+<Base title={title} description={description} canonicalPath="/404" currentPath="" noIndex={true}>
+
+  <section class="section section--ivory not-found" aria-labelledby="not-found-heading">
+    <div class="container not-found__content">
+      <p class="not-found__code" aria-hidden="true">404</p>
+      <h1 id="not-found-heading">Page not found.</h1>
+      <p class="not-found__body">
+        The page you are looking for may have moved or is no longer available.
+      </p>
+      <div class="not-found__actions">
+        <Button href="/" variant="secondary">Return to Homepage</Button>
+        <Button href="/insights" variant="ghost">Browse Insights →</Button>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .not-found {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .not-found__content {
+    max-width: 560px;
+    padding-block: var(--sp-9) var(--sp-10);
+  }
+
+  .not-found__code {
+    font-family: var(--font-serif);
+    font-size: clamp(var(--text-5xl), 10vw, var(--text-6xl));
+    font-weight: 600;
+    color: var(--color-hairline);
+    line-height: 1;
+    margin-bottom: var(--sp-5);
+  }
+
+  .not-found__content h1 {
+    font-size: clamp(var(--text-3xl), 4vw, var(--text-4xl));
+    margin-bottom: var(--sp-5);
+  }
+
+  .not-found__body {
+    font-size: var(--text-xl);
+    color: var(--color-slate);
+    margin-bottom: var(--sp-8);
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+</style>

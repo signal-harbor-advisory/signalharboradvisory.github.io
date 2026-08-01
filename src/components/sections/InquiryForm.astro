@@ -1,0 +1,531 @@
+---
+// InquiryForm.astro
+// Four-state accessible inquiry form.
+// Local review: simulated submission — no network request.
+// Production boundary: documented in src/scripts/form.ts
+import { SITE, hasProfessionalEmail } from '../../config/site';
+
+const natureOptions = [
+  'Technology strategy or transformation',
+  'Capital markets platform modernization',
+  'AI, data or cloud transformation',
+  'Engineering leadership or operational resilience',
+  'Strategic assessment',
+  'Ongoing executive advisory',
+  'Board or due diligence conversation',
+  'Expert consultation',
+  'Consulting partnership',
+  'Relevant executive opportunity',
+  'Other professional inquiry',
+];
+
+const timingOptions = [
+  'As soon as practical',
+  'Within two weeks',
+  'Within one month',
+  'Exploring a future need',
+];
+
+const referralOptions = [
+  'Professional referral',
+  'LinkedIn',
+  'Expert network',
+  'Consulting firm',
+  'Search',
+  'Conference or professional event',
+  'Other',
+];
+
+// Check if ?preview=failure is set server-side for form default state
+// (client script handles actual state — this just pre-renders the right panel)
+---
+
+<!-- Live region for screen reader announcements -->
+<div
+  id="form-announcer"
+  role="status"
+  aria-live="polite"
+  aria-atomic="true"
+  class="sr-only"
+></div>
+
+<!-- ── State: IDLE (form visible) ─────────────────────────────────────── -->
+<div id="form-state-idle" aria-hidden="false">
+  <p class="form-instruction">
+    Please provide only the information needed to understand the general nature of your inquiry.
+    Do not include confidential, proprietary, client restricted or material nonpublic information.
+  </p>
+
+  <form
+    id="inquiry-form"
+    novalidate
+    aria-label="Advisory inquiry form"
+    class="inquiry-form"
+  >
+    <!-- Row: Name + Organization -->
+    <div class="form-row form-row--2col">
+      <div class="form-field">
+        <label for="f-name" class="form-label">
+          Name <span aria-hidden="true" class="required-mark">*</span>
+        </label>
+        <input
+          type="text"
+          id="f-name"
+          name="name"
+          required
+          autocomplete="name"
+          aria-required="true"
+          data-error-required="Please enter your name."
+          class="form-input"
+        />
+      </div>
+      <div class="form-field">
+        <label for="f-org" class="form-label">
+          Organization <span aria-hidden="true" class="required-mark">*</span>
+        </label>
+        <input
+          type="text"
+          id="f-org"
+          name="organization"
+          required
+          autocomplete="organization"
+          aria-required="true"
+          data-error-required="Please enter your organization."
+          class="form-input"
+        />
+      </div>
+    </div>
+
+    <!-- Row: Role + Email -->
+    <div class="form-row form-row--2col">
+      <div class="form-field">
+        <label for="f-role" class="form-label">
+          Role or title <span aria-hidden="true" class="required-mark">*</span>
+        </label>
+        <input
+          type="text"
+          id="f-role"
+          name="role"
+          required
+          autocomplete="organization-title"
+          aria-required="true"
+          data-error-required="Please enter your role or title."
+          class="form-input"
+        />
+      </div>
+      <div class="form-field">
+        <label for="f-email" class="form-label">
+          Business email <span aria-hidden="true" class="required-mark">*</span>
+        </label>
+        <input
+          type="email"
+          id="f-email"
+          name="email"
+          required
+          autocomplete="email"
+          aria-required="true"
+          data-error-required="Please enter your business email address."
+          class="form-input"
+        />
+      </div>
+    </div>
+
+    <!-- Nature of inquiry -->
+    <div class="form-field">
+      <label for="f-nature" class="form-label">
+        Nature of inquiry <span aria-hidden="true" class="required-mark">*</span>
+      </label>
+      <select
+        id="f-nature"
+        name="nature"
+        required
+        aria-required="true"
+        data-error-required="Please select the nature of your inquiry."
+        class="form-select"
+      >
+        <option value="">Select an option</option>
+        {natureOptions.map((opt) => (
+          <option value={opt}>{opt}</option>
+        ))}
+      </select>
+    </div>
+
+    <!-- Brief description -->
+    <div class="form-field">
+      <label for="f-description" class="form-label">
+        Brief description <span aria-hidden="true" class="required-mark">*</span>
+      </label>
+      <p id="f-description-hint" class="form-hint">
+        Describe the decision or challenge at a high level. Do not submit confidential or restricted information.
+      </p>
+      <textarea
+        id="f-description"
+        name="description"
+        required
+        aria-required="true"
+        aria-describedby="f-description-hint"
+        data-error-required="Please provide a brief description."
+        rows="5"
+        class="form-textarea"
+      ></textarea>
+    </div>
+
+    <!-- Row: Timing + Referral -->
+    <div class="form-row form-row--2col">
+      <div class="form-field">
+        <label for="f-timing" class="form-label">
+          Preferred timing <span class="form-label--optional">(optional)</span>
+        </label>
+        <select id="f-timing" name="timing" class="form-select">
+          <option value="">No preference</option>
+          {timingOptions.map((opt) => (
+            <option value={opt}>{opt}</option>
+          ))}
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="f-referral" class="form-label">
+          How did you hear about Arun? <span class="form-label--optional">(optional)</span>
+        </label>
+        <select id="f-referral" name="referral" class="form-select">
+          <option value="">Prefer not to say</option>
+          {referralOptions.map((opt) => (
+            <option value={opt}>{opt}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+
+    <!-- Confidentiality acknowledgment -->
+    <div class="form-field form-field--checkbox">
+      <label class="checkbox-label" for="f-acknowledgment">
+        <input
+          type="checkbox"
+          id="f-acknowledgment"
+          name="acknowledgment"
+          required
+          aria-required="true"
+          data-error-required="You must acknowledge this before submitting."
+          class="form-checkbox"
+        />
+        <span>
+          I understand that I should not submit confidential, proprietary, client restricted
+          or material nonpublic information through this form.
+          <span aria-hidden="true" class="required-mark">*</span>
+        </span>
+      </label>
+    </div>
+
+    <p class="form-required-note">
+      <span aria-hidden="true" class="required-mark">*</span> Required field
+    </p>
+
+    <button type="submit" id="form-submit" class="btn btn--primary form-submit">
+      Send Inquiry
+    </button>
+  </form>
+</div>
+
+<!-- ── State: SUBMITTING ──────────────────────────────────────────────── -->
+<div id="form-state-submitting" aria-hidden="true" hidden>
+  <div class="form-status-panel" aria-live="polite">
+    <div class="spinner" aria-hidden="true">
+      <div class="spinner__ring"></div>
+    </div>
+    <p class="form-status-panel__text">Sending your inquiry&hellip;</p>
+  </div>
+</div>
+
+<!-- ── State: SUCCESS ─────────────────────────────────────────────────── -->
+<div id="form-state-success" aria-hidden="true" hidden>
+  <div class="form-status-panel form-status-panel--success" tabindex="-1">
+    <div class="form-status-panel__icon" aria-hidden="true">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M12 20.5l5.5 5.5 10.5-11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h3 class="form-status-panel__heading">Thank you. Your inquiry has been received.</h3>
+    <p>
+      Arun will review the information provided and respond personally if the inquiry
+      aligns with his areas of experience and availability.
+    </p>
+    <p class="form-status-panel__note">
+      Submission of an inquiry does not create an advisory, fiduciary, contractual or client relationship.
+    </p>
+    <a href="/" class="btn btn--secondary">Return to the Homepage</a>
+  </div>
+</div>
+
+<!-- ── State: FAILURE ─────────────────────────────────────────────────── -->
+<div id="form-state-failure" aria-hidden="true" hidden>
+  <div class="form-status-panel form-status-panel--failure" tabindex="-1">
+    <div class="form-status-panel__icon" aria-hidden="true">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M20 12v10M20 26v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h3 class="form-status-panel__heading">Your inquiry could not be sent.</h3>
+    <p>Please try again. If the issue continues, use the professional contact option below.</p>
+    {hasProfessionalEmail && (
+      <p>
+        You may also reach Arun directly at{' '}
+        <a href={`mailto:${SITE.professionalEmail}`} class="failure-email">
+          {SITE.professionalEmail}
+        </a>.
+      </p>
+    )}
+    {!hasProfessionalEmail && (
+      <p class="form-status-panel__note">
+        A professional contact address will be provided here before launch.
+      </p>
+    )}
+    <button id="form-retry" type="button" class="btn btn--secondary">
+      Try Again
+    </button>
+  </div>
+</div>
+
+<script src="../../scripts/form.ts"></script>
+
+<style>
+  /* ── Form layout ───────────────────────────────────────────────────────── */
+  .form-instruction {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+    margin-bottom: var(--sp-7);
+    padding: var(--sp-4) var(--sp-5);
+    background-color: var(--color-soft-stone);
+    border-left: 3px solid var(--color-muted-bronze);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  .inquiry-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
+
+  .form-row--2col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+  }
+
+  @media (min-width: 640px) {
+    .form-row--2col {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .form-label {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-charcoal);
+  }
+
+  .form-label--optional {
+    font-weight: 400;
+    color: var(--color-slate);
+  }
+
+  .required-mark {
+    color: var(--color-muted-bronze);
+    margin-left: 2px;
+  }
+
+  .form-hint {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+    max-width: none;
+    margin-bottom: var(--sp-1);
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100%;
+    padding: var(--sp-3) var(--sp-4);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--color-charcoal);
+    background-color: var(--color-paper);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-md);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+    appearance: none;
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: var(--color-slate-blue);
+    box-shadow: 0 0 0 3px rgba(82, 106, 122, 0.15);
+  }
+
+  .form-input[aria-invalid='true'],
+  .form-select[aria-invalid='true'],
+  .form-textarea[aria-invalid='true'],
+  .form-checkbox[aria-invalid='true'] {
+    border-color: var(--color-error);
+  }
+
+  .form-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235D6670' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--sp-4) center;
+    padding-right: var(--sp-8);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  /* Checkbox */
+  .form-field--checkbox {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-3);
+    font-size: var(--text-sm);
+    color: var(--color-charcoal);
+    cursor: pointer;
+    line-height: var(--leading-relaxed);
+  }
+
+  .form-checkbox {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-paper);
+    cursor: pointer;
+    accent-color: var(--color-ink-navy);
+    margin-top: 3px;
+  }
+
+  /* Field errors */
+  :global(.field-error) {
+    font-size: var(--text-sm);
+    color: var(--color-error);
+    margin-top: var(--sp-1);
+  }
+
+  .form-required-note {
+    font-size: var(--text-xs);
+    color: var(--color-slate);
+    max-width: none;
+  }
+
+  .form-submit {
+    align-self: flex-start;
+    min-width: 160px;
+    justify-content: center;
+    padding: var(--sp-4) var(--sp-7) !important;
+    font-size: var(--text-base) !important;
+  }
+
+  /* ── Status panels ─────────────────────────────────────────────────────── */
+  .form-status-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-4);
+    padding: var(--sp-7);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-soft-stone);
+    border: var(--border-hairline);
+    min-height: 280px;
+  }
+
+  .form-status-panel:focus {
+    outline: none;
+  }
+
+  .form-status-panel--success {
+    background-color: rgba(53, 99, 74, 0.06);
+    border-color: var(--color-success);
+  }
+
+  .form-status-panel--failure {
+    background-color: rgba(155, 54, 54, 0.06);
+    border-color: var(--color-error);
+  }
+
+  .form-status-panel__icon {
+    color: var(--color-success);
+  }
+
+  .form-status-panel--failure .form-status-panel__icon {
+    color: var(--color-error);
+  }
+
+  .form-status-panel__heading {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    color: var(--color-ink-navy);
+    line-height: var(--leading-snug);
+  }
+
+  .form-status-panel p {
+    font-size: var(--text-base);
+    color: var(--color-charcoal);
+    max-width: 560px;
+  }
+
+  .form-status-panel__note {
+    font-size: var(--text-sm) !important;
+    color: var(--color-slate) !important;
+    font-style: italic;
+  }
+
+  .failure-email {
+    color: var(--color-slate-blue);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Spinner */
+  .spinner {
+    width: 32px;
+    height: 32px;
+    position: relative;
+  }
+
+  .spinner__ring {
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--color-hairline);
+    border-top-color: var(--color-ink-navy);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .form-status-panel__text {
+    font-size: var(--text-base);
+    color: var(--color-slate);
+    max-width: none;
+  }
+</style>

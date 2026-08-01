@@ -1,0 +1,535 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionLabel from '../components/ui/SectionLabel.astro';
+import Button from '../components/ui/Button.astro';
+import { SITE } from '../config/site';
+
+const title       = `Executive Technology Advisory | ${SITE.orgName}`;
+const description = 'Independent advisory for leaders navigating technology strategy, capital markets platform modernization, enterprise AI adoption, engineering effectiveness and operational resilience.';
+---
+
+<Base title={title} description={description} canonicalPath="/advisory" currentPath="/advisory">
+
+  <!-- Hero -->
+  <section class="section section--ivory" aria-labelledby="advisory-hero-heading">
+    <div class="container advisory-hero">
+      <SectionLabel>Advisory</SectionLabel>
+      <h1 id="advisory-hero-heading">Strategic clarity for complex technology transformation.</h1>
+      <p class="advisory-hero__body">
+        I work with senior leaders evaluating consequential technology decisions across enterprise
+        strategy, capital markets platforms, AI and data adoption, engineering organizations and
+        operational resilience.
+      </p>
+      <p class="advisory-hero__body">
+        Each engagement is shaped around the decision, risk or transformation challenge at hand,
+        not a predetermined methodology or technology product.
+      </p>
+      <Button href="/contact" variant="primary">{SITE.primaryCta}</Button>
+    </div>
+  </section>
+
+  <!-- Approach -->
+  <section class="section section--paper" aria-labelledby="approach-heading">
+    <div class="container">
+      <SectionLabel>The Approach</SectionLabel>
+      <h2 id="approach-heading">Independent perspective. Practical priorities. Executive level engagement.</h2>
+      <p class="approach-body">
+        Complex transformation decisions rarely belong to one function. Business priorities,
+        architecture, data, risk, operating models, talent and execution must be considered together.
+      </p>
+      <p class="approach-body">
+        My role is to help leadership teams understand the material choices, challenge assumptions,
+        identify constraints and create a practical path forward.
+      </p>
+      <div class="approach-steps">
+        {[
+          { label: 'Understand the decision', copy: 'Clarify the business outcome, strategic choices, stakeholders, dependencies and material risks.' },
+          { label: 'Evaluate the environment', copy: 'Assess the platforms, organization, architecture, data, operating model and execution realities relevant to the decision.' },
+          { label: 'Establish priorities',    copy: 'Distinguish essential action from activity that adds complexity without improving the outcome.' },
+          { label: 'Shape the path forward',  copy: 'Translate findings into clear recommendations, sequencing, governance and executive decisions.' },
+        ].map((step, i) => (
+          <div class="approach-step">
+            <span class="approach-step__num" aria-hidden="true">0{i + 1}</span>
+            <div>
+              <h3 class="approach-step__label">{step.label}</h3>
+              <p class="approach-step__copy">{step.copy}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology Strategy -->
+  <section id="technology-strategy" class="section section--ivory practice" aria-labelledby="ts-heading">
+    <div class="container practice__inner">
+      <div class="practice__content">
+        <SectionLabel>Practice 01</SectionLabel>
+        <h2 id="ts-heading">Connect technology ambition with an executable transformation agenda.</h2>
+        <p>
+          I advise executives assessing technology direction, investment priorities, modernization
+          portfolios and challenged transformation programs. The objective is to create strategic
+          clarity while recognizing the architecture, organizational capacity, operating risk and
+          execution dependencies that determine whether change can succeed.
+        </p>
+        <div class="practice__situations">
+          <h3>Relevant situations</h3>
+          <ul role="list">
+            <li>Technology strategy requires reevaluation</li>
+            <li>Transformation investments are fragmented</li>
+            <li>Business and technology leadership are not aligned</li>
+            <li>A major program needs an independent health assessment</li>
+            <li>Architecture or operating model decisions are delaying progress</li>
+            <li>Leadership needs a practical roadmap</li>
+          </ul>
+        </div>
+        <div class="practice__scope">
+          <h3>Advisory scope</h3>
+          <ul role="list">
+            <li>Technology strategy and roadmap assessment</li>
+            <li>Transformation portfolio review</li>
+            <li>Program health and recovery assessment</li>
+            <li>Business and technology alignment</li>
+            <li>Architecture and investment prioritization</li>
+            <li>Delivery and vendor strategy</li>
+            <li>Transformation governance</li>
+            <li>Executive decision support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capital Markets -->
+  <section id="capital-markets" class="section section--navy practice practice--dark" aria-labelledby="cm-heading">
+    <div class="container practice__inner">
+      <div class="practice__content">
+        <SectionLabel>Signature Specialization</SectionLabel>
+        <h2 id="cm-heading">Modernize critical platforms while protecting performance, control and continuity.</h2>
+        <p>
+          Capital markets platforms sit at the intersection of business change, complex products,
+          data, risk, regulation and time sensitive operations. Modernization must improve
+          responsiveness and resilience without underestimating migration risk or destabilizing
+          the business.
+        </p>
+        <p>
+          Drawing on extensive professional experience across global markets technology, I help
+          executives evaluate platform strategy, legacy complexity, architecture, operating models,
+          vendor choices and modernization sequencing.
+        </p>
+        <div class="practice__situations">
+          <h3>Relevant situations</h3>
+          <ul role="list">
+            <li>Critical platforms are expensive or difficult to change</li>
+            <li>Legacy architecture limits business responsiveness</li>
+            <li>Platforms require rationalization</li>
+            <li>Performance, scalability or resilience concerns are increasing</li>
+            <li>Leadership faces a build, buy or partnership decision</li>
+            <li>A migration needs stronger sequencing and risk assessment</li>
+          </ul>
+        </div>
+        <div class="practice__scope">
+          <h3>Advisory scope</h3>
+          <ul role="list">
+            <li>Capital markets technology strategy</li>
+            <li>Trading and markets platform assessment</li>
+            <li>Position, risk and reference data platforms</li>
+            <li>Legacy modernization and rationalization</li>
+            <li>Scalability and performance review</li>
+            <li>Operational risk assessment</li>
+            <li>Build or buy evaluation</li>
+            <li>Vendor and ecosystem assessment</li>
+            <li>Migration strategy</li>
+            <li>Platform ownership and operating model</li>
+          </ul>
+        </div>
+        <Button href="/contact?nature=Capital+markets+platform+modernization" variant="secondary">
+          {SITE.primaryCta}
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI, Data and Cloud -->
+  <section id="ai-data-cloud" class="section section--stone practice" aria-labelledby="ai-heading">
+    <div class="container practice__inner">
+      <div class="practice__content">
+        <SectionLabel>Practice 03</SectionLabel>
+        <h2 id="ai-heading">Move from technology experimentation to governed enterprise value.</h2>
+        <p>
+          AI adoption becomes meaningful when it is connected to business priorities, supported by
+          dependable data and embedded within accountable operating models. The same discipline
+          applies to cloud and data transformation.
+        </p>
+        <p>
+          I advise leaders defining practical adoption priorities, evaluating foundations and
+          establishing the governance required to move forward responsibly.
+        </p>
+        <div class="practice__scope">
+          <h3>Advisory scope</h3>
+          <ul role="list">
+            <li>Enterprise AI opportunity assessment</li>
+            <li>AI adoption strategy</li>
+            <li>Use case prioritization</li>
+            <li>AI enabled engineering workflows</li>
+            <li>Data strategy and readiness</li>
+            <li>Cloud modernization direction</li>
+            <li>Governance and control framework</li>
+            <li>Adoption measurement</li>
+            <li>Executive oversight model</li>
+          </ul>
+        </div>
+        <p class="practice__boundary">
+          This practice provides executive technology and transformation advice. It is not presented
+          as foundation model research, outsourced data science or an AI software development service.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Engineering Leadership -->
+  <section id="engineering-leadership" class="section section--paper practice" aria-labelledby="el-heading">
+    <div class="container practice__inner">
+      <div class="practice__content">
+        <SectionLabel>Practice 04</SectionLabel>
+        <h2 id="el-heading">Build stronger engineering organizations and more dependable execution.</h2>
+        <p>
+          Transformation depends on the organization responsible for delivering and operating it.
+          Unclear ownership, fragmented governance, weak business alignment and inconsistent
+          engineering practices can undermine a sound technology strategy.
+        </p>
+        <p>
+          I help leaders assess engineering operating models, global delivery, platform ownership,
+          accountability and operational resilience.
+        </p>
+        <div class="practice__scope">
+          <h3>Advisory scope</h3>
+          <ul role="list">
+            <li>Engineering operating model assessment</li>
+            <li>Global organization effectiveness</li>
+            <li>Leadership structure and accountability</li>
+            <li>Delivery governance</li>
+            <li>Platform ownership</li>
+            <li>Engineering metrics and executive reporting</li>
+            <li>Vendor and distributed team effectiveness</li>
+            <li>Resilience, capacity and continuity strategy</li>
+            <li>Selective interim guidance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Independent Executive Assessment -->
+  <section class="section section--ivory" aria-labelledby="iea-heading">
+    <div class="container iea">
+      <SectionLabel>A Focused Place to Begin</SectionLabel>
+      <h2 id="iea-heading">An independent view before a consequential decision.</h2>
+      <p>
+        Not every situation requires a long engagement. An Independent Executive Assessment
+        provides a focused review of a defined technology decision, transformation concern or
+        organizational challenge.
+      </p>
+      <div class="iea__formats">
+        {[
+          'Executive technology diagnostic',
+          'Transformation readiness review',
+          'Critical platform assessment',
+          'AI and data readiness assessment',
+          'Engineering operating model review',
+          'Program health assessment',
+          'Technology due diligence',
+          'Board or investment committee briefing',
+          'Second opinion on a major decision',
+        ].map((f) => (
+          <span class="iea__format-tag">{f}</span>
+        ))}
+      </div>
+      <Button href="/contact?nature=Strategic+assessment" variant="primary">
+        Discuss a Strategic Assessment
+      </Button>
+    </div>
+  </section>
+
+  <!-- Ways to engage -->
+  <section id="ways-to-engage" class="section section--stone" aria-labelledby="wte-heading">
+    <div class="container">
+      <SectionLabel>Ways to Engage</SectionLabel>
+      <h2 id="wte-heading">Advisory shaped to the situation.</h2>
+      <div class="engagement-list">
+        {[
+          { label: 'Strategic Assessment', copy: 'A focused independent review resulting in prioritized findings and an executive roadmap.' },
+          { label: 'Executive Advisory Retainer', copy: 'Ongoing counsel for executives, leadership teams and transformation sponsors.' },
+          { label: 'Executive Advisory Session', copy: 'A focused confidential consultation concerning a defined strategic question.' },
+          { label: 'Fractional or Interim Advisory', copy: 'Selective leadership for transformation mobilization, program stabilization or leadership transition, subject to availability, compliance and fit.' },
+          { label: 'Board, Due Diligence and Expert Engagements', copy: 'Specialized support for boards, private equity, consulting firms, expert networks and qualified research organizations.' },
+        ].map((e) => (
+          <div class="engagement-row">
+            <h3 class="engagement-row__label">{e.label}</h3>
+            <p class="engagement-row__copy">{e.copy}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Expert consultations -->
+  <section id="expert-consultations" class="section section--paper" aria-labelledby="expert-heading">
+    <div class="container expert">
+      <SectionLabel>Expert Networks</SectionLabel>
+      <h2 id="expert-heading">Independent expertise for focused research and diligence.</h2>
+      <p>
+        I participate selectively in expert consultations concerning financial services technology,
+        capital markets platforms, engineering organizations, AI and data transformation, cloud
+        strategy, outsourcing, vendor ecosystems and operational resilience.
+      </p>
+      <p>
+        All consultations remain subject to applicable confidentiality, employment, conflict of
+        interest and compliance obligations. I do not provide confidential, proprietary, client
+        restricted or material nonpublic information.
+      </p>
+      <Button href="/contact?nature=Expert+consultation" variant="secondary">
+        Connect About an Expert Consultation
+      </Button>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="section section--navy closing" aria-labelledby="advisory-close-heading">
+    <div class="container closing__inner">
+      <h2 id="advisory-close-heading">The right starting point is the decision that needs clarity.</h2>
+      <p>
+        If you are evaluating a transformation, critical platform, AI or data strategy,
+        engineering operating model or resilience concern, begin with a confidential inquiry.
+      </p>
+      <Button href="/contact" variant="secondary">{SITE.primaryCta}</Button>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .advisory-hero {
+    max-width: 760px;
+    padding-block: var(--sp-9) var(--sp-10);
+  }
+
+  .advisory-hero h1 {
+    margin-block: var(--sp-4) var(--sp-6);
+  }
+
+  .advisory-hero__body {
+    font-size: var(--text-xl);
+    margin-bottom: var(--sp-5);
+  }
+
+  .advisory-hero .btn {
+    margin-top: var(--sp-4);
+  }
+
+  /* Approach */
+  .approach-body {
+    margin-bottom: var(--sp-5);
+    max-width: var(--reading-width);
+  }
+
+  .approach-steps {
+    margin-top: var(--sp-8);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .approach-step {
+    display: flex;
+    gap: var(--sp-6);
+    padding-block: var(--sp-6);
+    border-top: var(--border-hairline);
+  }
+
+  .approach-step__num {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-muted-bronze);
+    font-weight: 500;
+    flex-shrink: 0;
+    padding-top: 4px;
+  }
+
+  .approach-step__label {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-ink-navy);
+    margin-bottom: var(--sp-3);
+  }
+
+  .approach-step__copy {
+    font-size: var(--text-base);
+    color: var(--color-slate);
+  }
+
+  /* Practice sections */
+  .practice__content {
+    max-width: var(--reading-width);
+  }
+
+  .practice__content h2 {
+    margin-block: var(--sp-4) var(--sp-6);
+  }
+
+  .practice__content p {
+    margin-bottom: var(--sp-5);
+  }
+
+  .practice--dark h2,
+  .practice--dark h3 {
+    color: var(--color-white);
+  }
+
+  .practice--dark p {
+    color: rgba(255,255,255,0.85);
+  }
+
+  .practice__situations,
+  .practice__scope {
+    margin-top: var(--sp-6);
+  }
+
+  .practice__situations h3,
+  .practice__scope h3 {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-muted-bronze);
+    margin-bottom: var(--sp-4);
+  }
+
+  .practice--dark .practice__situations h3,
+  .practice--dark .practice__scope h3 {
+    color: var(--color-muted-bronze);
+  }
+
+  .practice__situations ul,
+  .practice__scope ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    padding-left: var(--sp-5);
+    list-style: disc;
+  }
+
+  .practice__situations li,
+  .practice__scope li {
+    font-size: var(--text-base);
+    color: var(--color-charcoal);
+  }
+
+  .practice--dark .practice__situations li,
+  .practice--dark .practice__scope li {
+    color: rgba(255,255,255,0.8);
+  }
+
+  .practice__boundary {
+    margin-top: var(--sp-6) !important;
+    font-size: var(--text-sm) !important;
+    color: var(--color-slate) !important;
+    font-style: italic;
+    padding: var(--sp-4) var(--sp-5);
+    background-color: var(--color-paper);
+    border-left: 3px solid var(--color-hairline);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  /* IEA */
+  .iea {
+    max-width: 760px;
+  }
+
+  .iea h2 {
+    margin-block: var(--sp-4) var(--sp-5);
+  }
+
+  .iea p {
+    margin-bottom: var(--sp-6);
+  }
+
+  .iea__formats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-7);
+  }
+
+  .iea__format-tag {
+    padding: var(--sp-2) var(--sp-4);
+    background-color: var(--color-soft-stone);
+    border: var(--border-hairline);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    color: var(--color-charcoal);
+  }
+
+  /* Engagement list */
+  .engagement-list {
+    margin-top: var(--sp-7);
+    border-top: var(--border-hairline);
+  }
+
+  .engagement-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-3);
+    padding-block: var(--sp-6);
+    border-bottom: var(--border-hairline);
+  }
+
+  @media (min-width: 768px) {
+    .engagement-row {
+      grid-template-columns: 280px 1fr;
+      gap: var(--sp-8);
+    }
+  }
+
+  .engagement-row__label {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-ink-navy);
+  }
+
+  .engagement-row__copy {
+    font-size: var(--text-base);
+    color: var(--color-slate);
+  }
+
+  /* Expert */
+  .expert {
+    max-width: 680px;
+  }
+
+  .expert h2 {
+    margin-block: var(--sp-4) var(--sp-6);
+  }
+
+  .expert p {
+    margin-bottom: var(--sp-5);
+  }
+
+  /* Closing */
+  .closing__inner {
+    max-width: 600px;
+  }
+
+  .closing__inner h2 {
+    color: var(--color-white);
+    margin-bottom: var(--sp-5);
+  }
+
+  .closing__inner p {
+    color: rgba(255,255,255,0.85);
+    margin-bottom: var(--sp-7);
+  }
+</style>

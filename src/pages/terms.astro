@@ -1,0 +1,172 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionLabel from '../components/ui/SectionLabel.astro';
+import Button from '../components/ui/Button.astro';
+import { SITE } from '../config/site';
+
+const title       = `Terms of Use | ${SITE.orgName}`;
+const description = 'Terms of use for signalharboradvisory.com and Signal Harbor Advisory. Covers informational purpose, no advisory relationship, limitation of liability, intellectual property and governing law.';
+---
+
+<Base title={title} description={description} canonicalPath="/terms" currentPath="/terms" noIndex={true}>
+
+  <!-- Notice banner -->
+  <div class="notice-banner" role="status">
+    <div class="container">
+      <strong>Placeholder document.</strong> Final legal language is required before publication.
+      This page is not suitable for public release in its current form.
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="section section--ivory" aria-labelledby="terms-hero-heading">
+    <div class="container legal-hero">
+      <SectionLabel>Terms of Use</SectionLabel>
+      <h1 id="terms-hero-heading">Terms of Use</h1>
+      <p class="legal-hero__meta">
+        Last updated: placeholder date — final date to be confirmed before publication.
+      </p>
+    </div>
+  </section>
+
+  <!-- Body -->
+  <section class="section section--paper" aria-label="Terms of use content">
+    <div class="container legal-body">
+
+      <div class="legal-placeholder-notice" role="alert">
+        <p>
+          <strong>Final legal language required — not for publication.</strong> The section
+          headings below reflect the approved structure. All substantive legal language must
+          be reviewed and confirmed by qualified legal counsel before this page is published.
+        </p>
+      </div>
+
+      <section class="legal-section" aria-labelledby="terms-purpose-heading">
+        <h2 id="terms-purpose-heading">Informational purpose</h2>
+        <p class="legal-placeholder">
+          [Final legal language required. This section will state that all content on this
+          website is provided for informational purposes only and does not constitute professional
+          advice, consulting services or engagement of any kind.]
+        </p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="terms-relationship-heading">
+        <h2 id="terms-relationship-heading">No advisory relationship</h2>
+        <p class="legal-placeholder">
+          [Final legal language required. This section will state clearly that visiting,
+          using or submitting an inquiry through this website does not create an advisory,
+          fiduciary, contractual or client relationship. No such relationship is formed
+          unless and until a written engagement agreement is executed by both parties.]
+        </p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="terms-liability-heading">
+        <h2 id="terms-liability-heading">Limitation of liability</h2>
+        <p class="legal-placeholder">
+          [Final legal language required. This section will describe the limitations on
+          liability applicable to use of the website and its content.]
+        </p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="terms-ip-heading">
+        <h2 id="terms-ip-heading">Intellectual property</h2>
+        <p class="legal-placeholder">
+          [Final legal language required. This section will describe ownership of website
+          content, written materials and other intellectual property, and the limited
+          permissions granted to users.]
+        </p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="terms-law-heading">
+        <h2 id="terms-law-heading">Governing law</h2>
+        <p class="legal-placeholder">
+          [Final legal language required. This section will specify the governing law and
+          jurisdiction applicable to these terms of use.]
+        </p>
+      </section>
+
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="section section--ivory" aria-label="Return navigation">
+    <div class="container legal-close">
+      <Button href="/" variant="secondary">Return to Homepage</Button>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  /* Notice banner */
+  .notice-banner {
+    background-color: #7C3A1E;
+    color: var(--color-white);
+    padding-block: var(--sp-3);
+    font-size: var(--text-sm);
+  }
+
+  /* Hero */
+  .legal-hero {
+    max-width: 720px;
+    padding-block: var(--sp-8) var(--sp-9);
+  }
+
+  .legal-hero h1 {
+    margin-block: var(--sp-4) var(--sp-3);
+  }
+
+  .legal-hero__meta {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+    font-style: italic;
+  }
+
+  /* Body */
+  .legal-body {
+    max-width: var(--reading-width);
+  }
+
+  .legal-placeholder-notice {
+    padding: var(--sp-5) var(--sp-6);
+    background-color: #FFF3CD;
+    border: 1px solid #D4A017;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--sp-8);
+  }
+
+  .legal-placeholder-notice p {
+    font-size: var(--text-sm);
+    color: #5A3E00;
+    margin: 0;
+  }
+
+  .legal-section {
+    margin-bottom: var(--sp-8);
+    padding-bottom: var(--sp-7);
+    border-bottom: var(--border-hairline);
+  }
+
+  .legal-section:last-child {
+    border-bottom: none;
+  }
+
+  .legal-section h2 {
+    font-family: var(--font-sans);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--color-ink-navy);
+    margin-bottom: var(--sp-4);
+  }
+
+  .legal-placeholder {
+    font-size: var(--text-base);
+    color: var(--color-slate);
+    font-style: italic;
+  }
+
+  /* Close */
+  .legal-close {
+    padding-block: var(--sp-7);
+  }
+</style>

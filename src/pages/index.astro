@@ -1,0 +1,566 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionLabel from '../components/ui/SectionLabel.astro';
+import Button from '../components/ui/Button.astro';
+import { SITE, hasLinkedIn } from '../config/site';
+import { getCollection } from 'astro:content';
+
+// Pull the latest single insight for the featured preview
+const allInsights = await getCollection('insights', ({ data }) => !data.draft);
+allInsights.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+const featuredInsight = allInsights[0];
+
+const title       = `${SITE.orgName} | ${SITE.name}, ${SITE.descriptor}`;
+const description = 'Executive technology advisory grounded in capital markets, AI transformation, platform modernization, engineering leadership, data, cloud and operational resilience.';
+
+const advisoryPractices = [
+  {
+    label: 'Technology Strategy and Transformation',
+    copy:  'Clarify technology direction, investment priorities, operating models and transformation roadmaps by connecting strategic ambition with executable change.',
+    href:  '/advisory#technology-strategy',
+    cta:   'Explore Technology Strategy',
+  },
+  {
+    label: 'Capital Markets and Critical Platform Modernization',
+    copy:  'Evaluate and modernize critical platforms while addressing architecture, resilience, migration risk and operational complexity.',
+    href:  '/advisory#capital-markets',
+    cta:   'Explore Platform Modernization',
+  },
+  {
+    label: 'AI, Data and Cloud Transformation',
+    copy:  'Move from disconnected experimentation toward practical enterprise adoption grounded in data readiness, governance, engineering workflows and measurable value.',
+    href:  '/advisory#ai-data-cloud',
+    cta:   'Explore AI, Data and Cloud',
+  },
+  {
+    label: 'Engineering Leadership and Operational Resilience',
+    copy:  'Strengthen engineering organizations, accountability, delivery governance, platform ownership and the resilience required for dependable execution.',
+    href:  '/advisory#engineering-leadership',
+    cta:   'Explore Engineering Leadership',
+  },
+];
+
+const engagementModels = [
+  {
+    label: 'Strategic Assessment',
+    copy:  'A focused independent review of a transformation, critical platform, operating model, AI or data opportunity, or technology risk concern.',
+  },
+  {
+    label: 'Executive Advisory Retainer',
+    copy:  'Ongoing independent counsel for senior executives and transformation sponsors navigating major technology decisions and organizational change.',
+  },
+  {
+    label: 'Executive Advisory Session',
+    copy:  'A focused confidential discussion concerning a defined strategic question, second opinion or executive decision.',
+  },
+  {
+    label: 'Board, Due Diligence and Expert Engagements',
+    copy:  'Selective advisory for boards, private equity, consulting firms, expert networks and qualified research organizations.',
+  },
+];
+---
+
+<Base title={title} description={description} canonicalPath="/" currentPath="/">
+
+  <!-- ── Hero ────────────────────────────────────────────────────────────── -->
+  <section class="section section--ivory hero" aria-labelledby="hero-heading">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <SectionLabel>Executive Technology Advisory</SectionLabel>
+        <h1 id="hero-heading">Navigate complex technology transformation with confidence.</h1>
+        <p class="hero__body">
+          Executive advice for critical platform modernization, AI adoption, engineering
+          transformation, data strategy and operational resilience.
+        </p>
+        <div class="hero__actions">
+          <Button href="/contact" variant="primary">{SITE.primaryCta}</Button>
+          <Button href="/advisory" variant="secondary">Explore Advisory Services</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Credibility intro ────────────────────────────────────────────────── -->
+  <section class="section section--paper section--compact" aria-labelledby="credibility-heading">
+    <div class="container credibility">
+      <h2 id="credibility-heading">Strategic perspective grounded in enterprise delivery.</h2>
+      <div class="credibility__body">
+        <p>
+          Technology transformation becomes difficult when legacy complexity, business priorities,
+          architecture, talent and execution must move together.
+        </p>
+        <p>
+          Drawing on more than 20 years of technology leadership, I help leaders clarify
+          consequential decisions and turn transformation goals into practical priorities.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Advisory focus ──────────────────────────────────────────────────── -->
+  <section class="section section--ivory section--compact" aria-labelledby="advisory-heading">
+    <div class="container">
+      <SectionLabel>Advisory Focus</SectionLabel>
+      <h2 id="advisory-heading">Independent counsel for consequential technology decisions.</h2>
+
+      <div class="practices-grid">
+        {advisoryPractices.map((p, i) => (
+          <article class="practice-card">
+            <span class="practice-card__num" aria-hidden="true">0{i + 1}</span>
+            <h3 class="practice-card__label">{p.label}</h3>
+            <p class="practice-card__copy">{p.copy}</p>
+            <a href={p.href} class="practice-card__link">
+              {p.cta}
+              <span aria-hidden="true"> →</span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Capital markets signature ───────────────────────────────────────── -->
+  <section class="section section--navy section--compact" aria-labelledby="cm-heading">
+    <div class="container cm-feature">
+      <SectionLabel>Signature Specialization</SectionLabel>
+      <h2 id="cm-heading">Modernizing critical platforms without losing sight of the business they serve.</h2>
+      <p>
+        Capital markets transformation demands more than technical modernization. Platforms must
+        respond to evolving business needs while preserving performance, control, data integrity
+        and operational resilience.
+      </p>
+      <p>
+        Drawing on extensive professional experience across global markets technology, I advise
+        leaders evaluating platform strategy, legacy modernization, architecture, operating models,
+        vendor choices and transformation sequencing.
+      </p>
+      <ul class="cm-feature__topics" role="list">
+        <li>Trading and markets technology</li>
+        <li>Risk, position and reference data platforms</li>
+        <li>Platform rationalization and modernization</li>
+        <li>Scalability, performance and resilience</li>
+        <li>Build, buy and vendor decisions</li>
+        <li>Migration strategy and execution risk</li>
+      </ul>
+      <Button href="/contact?nature=Capital+markets+platform+modernization" variant="secondary">
+        Discuss a Platform Challenge
+      </Button>
+    </div>
+  </section>
+
+  <!-- ── Perspective ─────────────────────────────────────────────────────── -->
+  <section class="section section--stone section--compact" aria-labelledby="perspective-heading">
+    <div class="container perspective">
+      <SectionLabel>Advisory Perspective</SectionLabel>
+      <blockquote id="perspective-heading">
+        Experience is most valuable when it improves the next decision.
+      </blockquote>
+      <p>
+        My approach brings together business context, technology strategy, organizational readiness,
+        governance, risk and execution. It is designed to help leaders see the situation clearly and
+        make practical choices without relying on product selling or a predetermined implementation agenda.
+      </p>
+      <Button href="/experience" variant="secondary">Explore Experience and Perspective</Button>
+    </div>
+  </section>
+
+  <!-- ── Ways to engage ──────────────────────────────────────────────────── -->
+  <section class="section section--paper section--compact" aria-labelledby="engage-heading">
+    <div class="container">
+      <SectionLabel>Ways to Engage</SectionLabel>
+      <h2 id="engage-heading">Advisory shaped around the decision at hand.</h2>
+      <div class="engagement-grid">
+        {engagementModels.map((e) => (
+          <div class="engagement-item">
+            <h3 class="engagement-item__label">{e.label}</h3>
+            <p class="engagement-item__copy">{e.copy}</p>
+          </div>
+        ))}
+      </div>
+      <Button href="/advisory#ways-to-engage" variant="secondary">Explore Ways to Engage</Button>
+    </div>
+  </section>
+
+  <!-- ── Arun's perspective (POV quote) ──────────────────────────────────── -->
+  <section class="section section--ivory section--compact" aria-labelledby="pov-heading">
+    <div class="container pov">
+      <blockquote id="pov-heading">
+        Transformation succeeds when strategy, architecture and execution are treated as one leadership problem.
+      </blockquote>
+      <p>
+        Modern platforms alone do not create transformation. Sustainable change requires clarity about
+        the business outcome, disciplined technology choices, accountable engineering leadership and an
+        operating model capable of carrying the change forward.
+      </p>
+      <Button href="/insights" variant="ghost">Read Insights →</Button>
+    </div>
+  </section>
+
+  <!-- ── Featured insight ─────────────────────────────────────────────────── -->
+  {featuredInsight && (
+    <section class="section section--stone section--compact" aria-labelledby="insight-preview-heading">
+      <div class="container insight-preview">
+        <SectionLabel>Latest Perspective</SectionLabel>
+        <p class="insight-preview__topic">{featuredInsight.data.topic}</p>
+        <h2 id="insight-preview-heading" class="insight-preview__title">
+          <a href={`/insights/${featuredInsight.id}`}>{featuredInsight.data.title}</a>
+        </h2>
+        <p class="insight-preview__summary">{featuredInsight.data.summary}</p>
+        <div class="insight-preview__meta">
+          <span class="insight-preview__reading">{featuredInsight.data.readingTime}</span>
+        </div>
+        <Button href={`/insights/${featuredInsight.id}`} variant="ghost">
+          Read Perspective →
+        </Button>
+      </div>
+    </section>
+  )}
+
+  <!-- ── About Arun ──────────────────────────────────────────────────────── -->
+  <section class="section section--paper section--compact" aria-labelledby="about-preview-heading">
+    <div class="container about-preview">
+      <SectionLabel>About Arun</SectionLabel>
+      <h2 id="about-preview-heading">Executive judgment grounded in more than two decades of technology leadership.</h2>
+      <p>
+        Arun Arunachalam is a technology executive and advisor with experience spanning financial
+        services, global markets, capital markets technology, enterprise platforms, data, cloud,
+        AI enabled transformation and operational resilience.
+      </p>
+      <p>
+        His perspective is shaped by working across business, technology, architecture, operations
+        and governance in complex financial environments.
+      </p>
+      <div class="about-preview__actions">
+        <Button href="/about" variant="secondary">Learn More About Arun</Button>
+        <a
+          href={hasLinkedIn ? SITE.linkedInUrl : '#'}
+          class="btn btn--ghost"
+          target={hasLinkedIn ? '_blank' : undefined}
+          rel={hasLinkedIn ? 'noopener noreferrer' : undefined}
+          data-placeholder={hasLinkedIn ? undefined : 'true'}
+        >
+          View Arun on LinkedIn →
+          {hasLinkedIn && <span class="sr-only"> (opens in new tab)</span>}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Closing invitation ──────────────────────────────────────────────── -->
+  <section class="section section--navy closing section--compact" aria-labelledby="closing-heading">
+    <div class="container">
+      <h2 id="closing-heading">Facing a consequential technology decision?</h2>
+      <p>
+        If you are evaluating a critical platform, transformation program, AI or data strategy,
+        engineering operating model or resilience concern, begin with a confidential inquiry.
+      </p>
+      <Button href="/contact" variant="secondary">{SITE.primaryCta}</Button>
+      <p class="closing__notice">
+        Qualified inquiries receive a personal response. Please do not submit confidential,
+        proprietary or material nonpublic information.
+      </p>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    padding-block: var(--sp-6) var(--sp-7);
+  }
+
+  @media (min-width: 1024px) {
+    .hero {
+      padding-block: var(--sp-7) var(--sp-8);
+    }
+  }
+
+  .hero__inner {
+    max-width: 860px;
+  }
+
+  :global(.hero .section-label) {
+    margin-bottom: var(--sp-3);
+  }
+
+  #hero-heading {
+    font-size: clamp(var(--text-4xl), 4.5vw, var(--text-5xl));
+  }
+
+  .hero__content h1 {
+    margin-top: var(--sp-3);
+    margin-bottom: var(--sp-5);
+  }
+
+  .hero__body {
+    font-size: var(--text-xl);
+    margin-bottom: var(--sp-5);
+    color: var(--color-charcoal);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+  }
+
+  /* Credibility */
+  .credibility {
+    max-width: var(--reading-width);
+  }
+
+  .credibility h2 {
+    margin-bottom: var(--sp-6);
+  }
+
+  .credibility__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  /* Practices grid */
+  .practices-grid {
+    margin-top: var(--sp-6);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-1);
+  }
+
+  @media (min-width: 768px) {
+    .practices-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .practice-card {
+    padding: var(--sp-7) var(--sp-6);
+    border-top: var(--border-hairline);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .practice-card__num {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-muted-bronze);
+    font-weight: 500;
+  }
+
+  .practice-card__label {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-ink-navy);
+  }
+
+  .practice-card__copy {
+    font-size: var(--text-base);
+    color: var(--color-slate);
+    flex-grow: 1;
+  }
+
+  .practice-card__link {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-slate-blue);
+    text-decoration: none;
+    margin-top: var(--sp-2);
+    transition: color var(--transition-fast);
+  }
+
+  .practice-card__link:hover {
+    color: var(--color-ink-navy);
+  }
+
+  .practice-card__link:focus-visible {
+    outline: 2px solid var(--color-slate-blue);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Capital markets feature */
+  .cm-feature {
+    max-width: 760px;
+  }
+
+  .cm-feature h2 {
+    color: var(--color-white);
+    margin-top: var(--sp-4);
+    margin-bottom: var(--sp-6);
+  }
+
+  .cm-feature p {
+    color: rgba(255,255,255,0.85);
+    margin-bottom: var(--sp-5);
+  }
+
+  .cm-feature__topics {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-3) var(--sp-6);
+    margin-block: var(--sp-6) var(--sp-7);
+  }
+
+  .cm-feature__topics li {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.7);
+    padding-left: var(--sp-4);
+    position: relative;
+  }
+
+  .cm-feature__topics li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--color-muted-bronze);
+  }
+
+  /* Perspective */
+  .perspective blockquote {
+    margin: var(--sp-4) 0 var(--sp-6);
+    border-left-color: var(--color-muted-bronze);
+  }
+
+  .perspective p {
+    margin-bottom: var(--sp-6);
+  }
+
+  /* Engagement grid */
+  .engagement-grid {
+    margin-top: var(--sp-6);
+    margin-bottom: var(--sp-6);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  @media (min-width: 768px) {
+    .engagement-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .engagement-item {
+    padding: var(--sp-6);
+    border-top: var(--border-hairline);
+    border-right: none;
+  }
+
+  @media (min-width: 768px) {
+    .engagement-item:nth-child(odd) {
+      border-right: var(--border-hairline);
+    }
+  }
+
+  .engagement-item__label {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-ink-navy);
+    margin-bottom: var(--sp-3);
+  }
+
+  .engagement-item__copy {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+  }
+
+  /* POV */
+  .pov {
+    max-width: 760px;
+  }
+
+  .pov p {
+    margin-bottom: var(--sp-6);
+  }
+
+  /* Insight preview */
+  .insight-preview {
+    max-width: 720px;
+  }
+
+  .insight-preview__topic {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-slate);
+    margin-bottom: var(--sp-3);
+    max-width: none;
+  }
+
+  .insight-preview__title {
+    font-size: clamp(var(--text-2xl), 3vw, var(--text-4xl));
+    margin-bottom: var(--sp-4);
+  }
+
+  .insight-preview__title a {
+    text-decoration: none;
+    color: inherit;
+    transition: color var(--transition-fast);
+  }
+
+  .insight-preview__title a:hover {
+    color: var(--color-slate-blue);
+  }
+
+  .insight-preview__summary {
+    margin-bottom: var(--sp-5);
+  }
+
+  .insight-preview__meta {
+    margin-bottom: var(--sp-5);
+  }
+
+  .insight-preview__reading {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+  }
+
+  /* About preview */
+  .about-preview {
+    max-width: 680px;
+  }
+
+  .about-preview h2 {
+    margin-top: var(--sp-4);
+    margin-bottom: var(--sp-6);
+  }
+
+  .about-preview p {
+    margin-bottom: var(--sp-5);
+  }
+
+  .about-preview__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-5);
+    margin-top: var(--sp-6);
+  }
+
+  /* Closing */
+  .closing .container {
+    max-width: 640px;
+  }
+
+  .closing h2 {
+    color: var(--color-white);
+    margin-bottom: var(--sp-5);
+  }
+
+  .closing p {
+    color: rgba(255,255,255,0.85);
+    margin-bottom: var(--sp-6);
+  }
+
+  .closing__notice {
+    font-size: var(--text-sm) !important;
+    color: rgba(255,255,255,0.5) !important;
+    margin-top: var(--sp-5) !important;
+    font-style: italic;
+  }
+</style>

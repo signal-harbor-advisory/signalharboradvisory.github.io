@@ -1,0 +1,425 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionLabel from '../components/ui/SectionLabel.astro';
+import Button from '../components/ui/Button.astro';
+import { SITE, hasLinkedIn } from '../config/site';
+
+const title       = `About ${SITE.name} | Technology Executive and Advisor`;
+const description = `Learn about Arun Arunachalam's more than two decades of technology leadership across financial services, capital markets, global engineering and enterprise transformation.`;
+
+const isLinkedInPlaceholder = !hasLinkedIn;
+---
+
+<Base title={title} description={description} canonicalPath="/about" currentPath="/about">
+
+  <!-- Hero -->
+  <section class="section section--ivory" aria-labelledby="about-hero-heading">
+    <div class="container about-hero">
+      <div class="about-hero__content">
+        <SectionLabel>About Arun</SectionLabel>
+        <h1 id="about-hero-heading">Technology leadership built at the intersection of strategy, complexity and execution.</h1>
+        <p>
+          I am a technology executive and advisor with more than two decades of experience across
+          financial services, global markets, capital markets technology, enterprise platforms,
+          engineering leadership, data, cloud and operational resilience.
+        </p>
+        <p>
+          My work has consistently involved helping business and technology stakeholders navigate
+          difficult choices where modernization, risk, architecture, organizational capacity and
+          immediate business commitments must be considered together.
+        </p>
+      </div>
+      <!-- Portrait -->
+      <div class="portrait-placeholder">
+        <img
+          src="/images/arun_arunachalam.jpg"
+          alt={`${SITE.name}, ${SITE.descriptor}`}
+          class="aboutPortrait"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- How I think -->
+  <section class="section section--paper" aria-labelledby="think-heading">
+    <div class="container think">
+      <h2 id="think-heading">Transformation becomes credible when strategy and execution are treated as one leadership responsibility.</h2>
+      <div class="think__body">
+        <p>
+          The strongest technology strategies are not defined only by their target architecture.
+          They account for the business outcome, operating environment, organization responsible
+          for delivery and risks introduced along the way.
+        </p>
+        <p>
+          I approach transformation by asking practical questions. What decision is leadership
+          actually trying to make? Which constraints are material? Where is complexity accumulating?
+          What must remain stable while the organization changes? Does the proposed operating model
+          have the clarity and accountability required to sustain the result?
+        </p>
+        <p>
+          This perspective allows me to engage at the executive level while remaining grounded in
+          the realities facing architects, engineers, operations teams and transformation leaders.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What I bring -->
+  <section class="section section--stone" aria-labelledby="bring-heading">
+    <div class="container">
+      <SectionLabel>What I Bring</SectionLabel>
+      <h2 id="bring-heading">Capabilities shaped by two decades of enterprise leadership.</h2>
+      <div class="bring-grid">
+        {[
+          {
+            label: 'Business and technology fluency',
+            copy:  'The ability to translate between executive priorities, business requirements, architecture, engineering, data, operations and governance.',
+          },
+          {
+            label: 'Strategy grounded in operating reality',
+            copy:  'A focus on recommendations that recognize organizational capacity, dependencies, risk and the practical conditions required for execution.',
+          },
+          {
+            label: 'Financial services and capital markets depth',
+            copy:  'Extensive experience within complex, regulated financial environments where technology reliability and business continuity are essential.',
+          },
+          {
+            label: 'Global leadership perspective',
+            copy:  'Experience leading across organizational, geographic and disciplinary boundaries while aligning stakeholders around shared outcomes.',
+          },
+          {
+            label: 'Independent judgment',
+            copy:  "Advice shaped by the client's decision and circumstances, not by a preferred product, vendor or implementation agenda.",
+          },
+          {
+            label: 'Calm engagement with complexity',
+            copy:  'A disciplined approach that separates the essential decision from surrounding noise.',
+          },
+        ].map((item) => (
+          <div class="bring-item">
+            <h3 class="bring-item__label">{item.label}</h3>
+            <p class="bring-item__copy">{item.copy}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership philosophy -->
+  <section class="section section--ivory" aria-labelledby="philosophy-heading">
+    <div class="container philosophy">
+      <SectionLabel>Leadership Philosophy</SectionLabel>
+      <blockquote id="philosophy-heading">
+        Clarity creates confidence, and accountability turns it into progress.
+      </blockquote>
+      <div class="philosophy__body">
+        <p>
+          I believe senior technology leadership requires more than setting direction. Leaders
+          must create clarity about priorities, establish meaningful ownership and build an
+          environment where teams can raise risks early, challenge assumptions and make informed
+          decisions.
+        </p>
+        <p>
+          Transformation demands balance: long term modernization with immediate delivery,
+          innovation with control, standardization with business differentiation, and speed
+          with resilience.
+        </p>
+        <p>
+          My advisory approach reflects that balance. I aim to help leaders see the situation
+          more clearly, test the strength of their choices and move forward with practical conviction.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Career foundation -->
+  <section class="section section--paper" aria-labelledby="career-heading">
+    <div class="container career">
+      <SectionLabel>Career Foundation</SectionLabel>
+      <h2 id="career-heading">Built in demanding environments, over time.</h2>
+      <blockquote class="career__statement">
+        Arun has held senior technology leadership roles within a major global financial institution
+        during an extensive career spanning financial services, global markets and enterprise technology.
+      </blockquote>
+      <p>
+        His experience has shaped a practical understanding of how major institutions evaluate
+        technology investment, manage complex change and balance modernization with operational
+        responsibility.
+      </p>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section class="section section--stone" aria-labelledby="about-edu-heading">
+    <div class="container about-edu">
+      <SectionLabel>Education and Development</SectionLabel>
+      <h2 id="about-edu-heading">Academic and continuing professional development.</h2>
+      <div class="credential">
+        <p class="credential__degree">Bachelor of Science in Chemical Engineering</p>
+        <p class="credential__institution">Anna University, Chennai, India</p>
+      </div>
+      <p class="about-edu__dev">
+        Arun's continuing professional development spans cloud technology, program leadership,
+        data platforms and emerging AI enabled ways of working.
+      </p>
+      <p class="about-edu__note">
+        Credentials are listed only after exact titles, issuers and status are verified.
+      </p>
+    </div>
+  </section>
+
+  <!-- Location -->
+  <section class="section section--paper" aria-labelledby="location-heading">
+    <div class="container location">
+      <h2 id="location-heading">Based in the New York metropolitan area, with a global perspective.</h2>
+      <p>
+        Arun is based in the New York metropolitan area and is available for select US and global
+        advisory conversations, subject to professional, confidentiality and compliance obligations.
+      </p>
+    </div>
+  </section>
+
+  <!-- LinkedIn -->
+  <section class="section section--stone" aria-labelledby="linkedin-heading">
+    <div class="container linkedin-section">
+      <h2 id="linkedin-heading">Connect professionally.</h2>
+      <p>
+        View Arun's career history, professional perspective and published updates on LinkedIn.
+      </p>
+      <a
+        href={isLinkedInPlaceholder ? '#' : SITE.linkedInUrl}
+        class="btn btn--secondary"
+        target={isLinkedInPlaceholder ? undefined : '_blank'}
+        rel={isLinkedInPlaceholder ? undefined : 'noopener noreferrer'}
+        data-placeholder={isLinkedInPlaceholder ? 'true' : undefined}
+      >
+        View Arun on LinkedIn
+        {!isLinkedInPlaceholder && <span class="sr-only"> (opens in new tab)</span>}
+      </a>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="section section--navy" aria-labelledby="about-close-heading">
+    <div class="container about-close">
+      <h2 id="about-close-heading">Complex decisions benefit from an experienced independent perspective.</h2>
+      <p>
+        If you are evaluating a significant technology transformation, platform decision, AI or
+        data strategy, engineering challenge or resilience concern, begin with a confidential inquiry.
+      </p>
+      <div class="about-close__actions">
+        <Button href="/contact" variant="secondary">{SITE.primaryCta}</Button>
+        <Button href="/advisory" variant="ghost">Explore Advisory Services →</Button>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  /* Hero */
+  .about-hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-8);
+    padding-block: var(--sp-9) var(--sp-10);
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .about-hero {
+      grid-template-columns: 1fr 340px;
+    }
+  }
+
+  .about-hero__content h1 {
+    margin-block: var(--sp-4) var(--sp-6);
+  }
+
+  .about-hero__content p {
+    margin-bottom: var(--sp-5);
+  }
+
+  .portrait-placeholder {
+    max-width: 340px;
+  }
+
+  .aboutPortrait {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+  }
+
+  /* Think */
+  .think {
+    max-width: var(--reading-width);
+  }
+
+  .think h2 {
+    margin-bottom: var(--sp-7);
+  }
+
+  .think__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+  }
+
+  /* What I bring */
+  .bring-grid {
+    margin-top: var(--sp-8);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+  }
+
+  @media (min-width: 768px) {
+    .bring-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .bring-item {
+    padding: var(--sp-6) 0;
+    border-top: var(--border-hairline);
+  }
+
+  .bring-item__label {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-ink-navy);
+    margin-bottom: var(--sp-3);
+  }
+
+  .bring-item__copy {
+    font-size: var(--text-base);
+    color: var(--color-slate);
+  }
+
+  /* Philosophy */
+  .philosophy {
+    max-width: var(--reading-width);
+  }
+
+  .philosophy blockquote {
+    margin-block: var(--sp-4) var(--sp-6);
+  }
+
+  .philosophy__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+  }
+
+  /* Career */
+  .career {
+    max-width: var(--reading-width);
+  }
+
+  .career h2 {
+    margin-block: var(--sp-4) var(--sp-6);
+  }
+
+  .career__statement {
+    margin-bottom: var(--sp-6);
+    font-size: var(--text-xl);
+  }
+
+  /* Education */
+  .about-edu {
+    max-width: 560px;
+  }
+
+  .about-edu h2 {
+    margin-block: var(--sp-4) var(--sp-7);
+  }
+
+  .credential {
+    padding: var(--sp-6);
+    background-color: var(--color-paper);
+    border: var(--border-hairline);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--sp-5);
+  }
+
+  .credential__degree {
+    font-weight: 600;
+    color: var(--color-ink-navy);
+    font-size: var(--text-lg);
+    max-width: none;
+    margin-bottom: var(--sp-2);
+  }
+
+  .credential__institution {
+    font-size: var(--text-base);
+    color: var(--color-slate);
+    max-width: none;
+  }
+
+  .about-edu__dev {
+    font-size: var(--text-base);
+    color: var(--color-charcoal);
+    margin-bottom: var(--sp-3);
+  }
+
+  .about-edu__note {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+    font-style: italic;
+  }
+
+  /* Location */
+  .location {
+    max-width: 560px;
+  }
+
+  .location h2 {
+    margin-bottom: var(--sp-5);
+  }
+
+  /* LinkedIn section */
+  .linkedin-section {
+    max-width: 480px;
+  }
+
+  .linkedin-section h2 {
+    margin-bottom: var(--sp-4);
+  }
+
+  .linkedin-section p {
+    margin-bottom: var(--sp-6);
+  }
+
+  /* Closing */
+  .about-close {
+    max-width: 640px;
+  }
+
+  .about-close h2 {
+    color: var(--color-white);
+    margin-bottom: var(--sp-5);
+  }
+
+  .about-close p {
+    color: rgba(255,255,255,0.85);
+    margin-bottom: var(--sp-7);
+  }
+
+  .about-close__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+
+  .about-close__actions .btn--ghost {
+    color: rgba(255,255,255,0.7);
+  }
+
+  .about-close__actions .btn--ghost:hover {
+    color: var(--color-white);
+  }
+</style>

@@ -1,0 +1,259 @@
+/* ==========================================================================
+   Global Styles
+   Imports tokens and reset; sets base element rules.
+   ========================================================================== */
+
+@import './tokens.css';
+@import './reset.css';
+
+/* ── Base ───────────────────────────────────────────────────────────────── */
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-charcoal);
+  background-color: var(--color-warm-ivory);
+}
+
+/* ── Typographic scale ─────────────────────────────────────────────────── */
+
+h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(var(--text-4xl), 5vw, var(--text-6xl));
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink-navy);
+}
+
+h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink-navy);
+}
+
+h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(var(--text-2xl), 3vw, var(--text-4xl));
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  color: var(--color-ink-navy);
+}
+
+h4 {
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  color: var(--color-ink-navy);
+}
+
+h5 {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-charcoal);
+}
+
+p {
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-charcoal);
+  max-width: var(--reading-width);
+}
+
+/* Blockquote — used for editorial statements */
+blockquote {
+  font-family: var(--font-serif);
+  font-size: clamp(var(--text-xl), 2.5vw, var(--text-3xl));
+  font-weight: 400;
+  line-height: var(--leading-snug);
+  color: var(--color-ink-navy);
+  border-left: 3px solid var(--color-muted-bronze);
+  padding-left: var(--sp-6);
+  margin: var(--sp-7) 0;
+}
+
+/* Article body prose */
+.prose {
+  max-width: var(--reading-width);
+}
+
+.prose h2 {
+  font-size: var(--text-3xl);
+  margin-top: var(--sp-8);
+  margin-bottom: var(--sp-4);
+}
+
+.prose h3 {
+  font-size: var(--text-2xl);
+  margin-top: var(--sp-7);
+  margin-bottom: var(--sp-3);
+}
+
+.prose p {
+  margin-bottom: var(--sp-5);
+}
+
+.prose ul,
+.prose ol {
+  list-style: disc;
+  padding-left: var(--sp-6);
+  margin-bottom: var(--sp-5);
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li {
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--sp-2);
+}
+
+.prose a {
+  color: var(--color-slate-blue);
+  text-decoration: underline;
+  text-decoration-color: var(--color-hairline);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--transition-fast);
+}
+
+.prose a:hover {
+  text-decoration-color: var(--color-slate-blue);
+}
+
+.prose blockquote {
+  font-size: var(--text-2xl);
+}
+
+.prose strong {
+  font-weight: 600;
+  color: var(--color-ink-navy);
+}
+
+/* ── Layout containers ─────────────────────────────────────────────────── */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter-mobile);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-inline: var(--gutter-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-inline: var(--gutter-desktop);
+  }
+}
+
+/* ── Section spacing ─────────────────────────────────────────────────── */
+
+.section {
+  padding-block: var(--sp-8);
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding-block: var(--sp-9);
+  }
+}
+
+.section--tight {
+  padding-block: var(--sp-7);
+}
+
+.section--compact {
+  padding-block: var(--sp-7);
+}
+
+@media (min-width: 1024px) {
+  .section--compact {
+    padding-block: var(--sp-8);
+  }
+}
+
+/* Section backgrounds */
+.section--ivory   { background-color: var(--color-warm-ivory); }
+.section--paper   { background-color: var(--color-paper);      }
+.section--stone   { background-color: var(--color-soft-stone); }
+.section--navy    { background-color: var(--color-ink-navy);   }
+.section--deep    { background-color: var(--color-deep-navy);  }
+
+.section--navy p,
+.section--navy h1,
+.section--navy h2,
+.section--navy h3,
+.section--navy h4,
+.section--navy h5,
+.section--deep p,
+.section--deep h1,
+.section--deep h2,
+.section--deep h3,
+.section--deep h4,
+.section--deep h5 {
+  color: var(--color-white);
+}
+
+.section--navy .section-label,
+.section--deep .section-label {
+  color: var(--color-muted-bronze);
+}
+
+/* ── Rules ─────────────────────────────────────────────────────────────── */
+
+hr.rule {
+  border: none;
+  border-top: var(--border-hairline);
+  margin-block: var(--sp-7);
+}
+
+hr.rule--bronze {
+  border-top: 1px solid var(--color-muted-bronze);
+}
+
+/* ── Utility ─────────────────────────────────────────────────────────────── */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Portrait frame — vertical rectangle, hairline border, no circular crop */
+.portrait-placeholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background-color: var(--color-soft-stone);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* Dev-mode placeholder indicator */
+[data-placeholder="true"] {
+  opacity: 0.6;
+  cursor: default;
+  pointer-events: none;
+  text-decoration: line-through;
+}

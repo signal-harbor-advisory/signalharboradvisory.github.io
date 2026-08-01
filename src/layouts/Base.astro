@@ -1,0 +1,140 @@
+---
+// Base.astro — wraps every page with <head>, SkipLink, Navigation, Footer.
+import SkipLink from '../components/layout/SkipLink.astro';
+import Navigation from '../components/layout/Navigation.astro';
+import Footer from '../components/layout/Footer.astro';
+import { SITE, hasLinkedIn } from '../config/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Canonical path relative to site root, e.g. '/advisory' */
+  canonicalPath?: string;
+  /** Open Graph type: 'website' | 'article' */
+  ogType?: string;
+  /** Publication date for articles */
+  publishDate?: string;
+  /** JSON-LD structured data (stringified) */
+  jsonLd?: string | string[];
+  /** Override OG image path */
+  ogImage?: string;
+  /** Current path for nav aria-current */
+  currentPath?: string;
+  /** Set true to add noindex (confirmation/error pages) */
+  noIndex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalPath = '/',
+  ogType = 'website',
+  publishDate,
+  jsonLd,
+  ogImage = '/og-default.png',
+  currentPath,
+  noIndex = false,
+} = Astro.props;
+
+const canonicalUrl = `${SITE.url}${canonicalPath}`;
+const ogImageUrl   = `${SITE.url}${ogImage}`;
+
+// JSON-LD — WebSite + Person on home page
+const baseLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.orgName,
+  url: SITE.url,
+});
+
+const personLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.name,
+  jobTitle: SITE.descriptor,
+  url: SITE.url,
+  sameAs: hasLinkedIn ? [SITE.linkedInUrl] : [],
+  worksFor: {
+    '@type': 'Organization',
+    name: SITE.orgName,
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressRegion: 'NY',
+    addressCountry: 'US',
+  },
+});
+
+const ldScripts = [
+  baseLd,
+  ...(canonicalPath === '/' ? [personLd] : []),
+  ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : []),
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary meta -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type"        content={ogType} />
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url"         content={canonicalUrl} />
+    <meta property="og:image"       content={ogImageUrl} />
+    <meta property="og:image:width"  content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name"   content={SITE.orgName} />
+    <meta property="og:locale"      content="en_US" />
+
+    {publishDate && (
+      <meta property="article:published_time" content={publishDate} />
+      <meta property="article:author" content={SITE.name} />
+    )}
+
+    <!-- Twitter/LinkedIn card -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image"       content={ogImageUrl} />
+
+    <!-- Fonts — Google Fonts (CDN for local review; self-host before launch) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Global styles -->
+    <link rel="stylesheet" href="/src/styles/global.css" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Structured data -->
+    {ldScripts.map((ld) => (
+      <script type="application/ld+json" set:html={ld} />
+    ))}
+  </head>
+
+  <body>
+    <SkipLink />
+    <Navigation currentPath={currentPath ?? Astro.url.pathname} />
+
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

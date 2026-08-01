@@ -1,0 +1,44 @@
+---
+// ExternalLink.astro — accessible external link with correct rel attributes
+interface Props {
+  href: string;
+  class?: string;
+  label?: string;   // Overrides the accessible label if needed
+  placeholder?: boolean; // True when URL is not yet confirmed
+}
+const { href, class: className = '', label, placeholder = false } = Astro.props;
+const isPlaceholder = placeholder || href === '#LINKEDIN_URL_TBD';
+---
+<a
+  href={isPlaceholder ? '#' : href}
+  class={['external-link', className].filter(Boolean).join(' ')}
+  target={isPlaceholder ? undefined : '_blank'}
+  rel={isPlaceholder ? undefined : 'noopener noreferrer'}
+  aria-label={label}
+  data-placeholder={isPlaceholder ? 'true' : undefined}
+  tabindex={isPlaceholder ? -1 : undefined}
+>
+  <slot />
+  {!isPlaceholder && <span class="sr-only"> (opens in new tab)</span>}
+</a>
+
+<style>
+  .external-link {
+    color: var(--color-slate-blue);
+    text-decoration: underline;
+    text-decoration-color: var(--color-hairline);
+    text-underline-offset: 3px;
+    transition: text-decoration-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .external-link:hover {
+    color: var(--color-ink-navy);
+    text-decoration-color: var(--color-ink-navy);
+  }
+
+  .external-link:focus-visible {
+    outline: 2px solid var(--color-slate-blue);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+</style>

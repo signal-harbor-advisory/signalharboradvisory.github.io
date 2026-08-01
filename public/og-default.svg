@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0D1B2A"/>
+
+  <!-- Bronze rule -->
+  <rect x="80" y="200" width="120" height="3" fill="#A47C48"/>
+
+  <!-- Name -->
+  <text
+    x="80"
+    y="300"
+    font-family="Georgia, serif"
+    font-size="64"
+    font-weight="600"
+    fill="#F5F1E8"
+    letter-spacing="-1"
+  >Signal Harbor Advisory</text>
+
+  <!-- Descriptor -->
+  <text
+    x="80"
+    y="360"
+    font-family="Georgia, serif"
+    font-size="28"
+    font-weight="400"
+    fill="#A47C48"
+  >Arun Arunachalam, Executive Technology Advisor</text>
+
+  <!-- Positioning -->
+  <text
+    x="80"
+    y="420"
+    font-family="Arial, sans-serif"
+    font-size="18"
+    font-weight="400"
+    fill="rgba(245,241,232,0.6)"
+    letter-spacing="1"
+  >Capital Markets · AI Transformation · Platform Modernization · Engineering Leadership</text>
+
+  <!-- Bottom rule -->
+  <rect x="80" y="490" width="1040" height="1" fill="rgba(245,241,232,0.15)"/>
+
+  <!-- URL placeholder -->
+  <text
+    x="80"
+    y="530"
+    font-family="Arial, sans-serif"
+    font-size="16"
+    font-weight="400"
+    fill="rgba(245,241,232,0.4)"
+    letter-spacing="1"
+  >signalharboradvisory.com</text>
+</svg>
