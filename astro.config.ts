@@ -7,10 +7,13 @@ export default defineConfig({
   site: SITE_URL,
   integrations: [
     sitemap({
-      // Exclude non-indexable utility pages
+      // Exclude non-indexable utility pages and pages still marked
+      // noindex (Privacy/Terms are placeholder text pending legal review)
       filter: (page) =>
         !page.includes('/contact/confirm') &&
-        !page.includes('/contact/error'),
+        !page.includes('/contact/error') &&
+        !page.includes('/privacy') &&
+        !page.includes('/terms'),
     }),
   ],
   output: 'static',
