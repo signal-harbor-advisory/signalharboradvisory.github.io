@@ -4,28 +4,39 @@
  *
  * States: idle → submitting → success | failure
  *
- * LOCAL REVIEW MODE (formEndpoint is empty):
- *   Submission is simulated with a 1 200 ms delay.
- *   Add ?preview=failure to the /contact URL to preview the failure state.
+ * Submits to the Cloudflare Worker at SITE.formEndpoint. The Worker owns
+ * Resend delivery, server-side validation, rate limiting and Turnstile
+ * secret-key verification — none of that lives in this static site.
  *
- * PRODUCTION BOUNDARY
- * ─────────────────────────────────────────────────────────────────────────
- * Replace simulateSubmit() with a real fetch() POST to SITE.formEndpoint.
- * Required before launch:
- *   - RESEND_API_KEY          → Astro server endpoint (never expose client-side)
- *   - TURNSTILE_SITE_KEY      → PUBLIC_TURNSTILE_SITE_KEY in .env (client-visible)
- *   - TURNSTILE_SECRET_KEY    → TURNSTILE_SECRET_KEY in .env (server only)
- *   - Server-side validation  → sanitize all fields; reject missing required fields
- *   - Rate limiting           → per-IP and per-email (Cloudflare Workers or middleware)
- *   - No raw form content in logs — log submission receipt only
- *   - On success: send notification to PROFESSIONAL_EMAIL via Resend
- *   - Never echo raw submission back to the client response
- * ─────────────────────────────────────────────────────────────────────────
+ * Local/preview aid: add ?preview=failure to the /contact URL to force
+ * the failure state without calling the Worker.
  */
+import { SITE, hasTurnstile } from '../config/site';
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: string | HTMLElement, options: Record<string, unknown>) => string;
+      reset: (widgetId?: string) => void;
+      getResponse: (widgetId?: string) => string | undefined;
+    };
+    onSignalHarborTurnstileLoad?: () => void;
+  }
+}
 
 type FormState = 'idle' | 'submitting' | 'success' | 'failure';
 
-const SIMULATE_DELAY_MS = 1200;
+interface InquiryPayload {
+  name: string;
+  email: string;
+  organization: string;
+  message: string;
+  website: string;
+  turnstileToken: string;
+}
+
+let turnstileToken = '';
+let turnstileWidgetId: string | undefined;
 
 function initInquiryForm() {
   const form     = document.getElementById('inquiry-form')  as HTMLFormElement | null;
@@ -44,9 +55,29 @@ function initInquiryForm() {
   const _form      = form      as HTMLFormElement;
   const _submitBtn = submitBtn as HTMLButtonElement;
 
-  // Determine if we should simulate failure (local review aid)
+  // Determine if we should simulate failure (local/preview QA aid)
   const previewFailure =
     new URLSearchParams(window.location.search).get('preview') === 'failure';
+
+  // Any explicit ?preview=... param marks an intentional testing visit,
+  // not a real prospective client filling out the form.
+  const isExplicitPreview = new URLSearchParams(window.location.search).has('preview');
+  const isTestingContext = import.meta.env.DEV || isExplicitPreview;
+
+  // PRODUCTION SAFEGUARD: the Worker requires a valid Turnstile token and
+  // will reject any submission without one. If this build somehow doesn't
+  // have Turnstile configured (hasTurnstile false) and we're not in a
+  // local-dev or explicit-preview testing context, do not let visitors
+  // attempt a submission that is guaranteed to fail server-side — disable
+  // the button up front and point them to the direct email fallback
+  // instead of a silent/late failure after they've filled out the form.
+  const submissionBlocked = !hasTurnstile && !isTestingContext;
+
+  if (submissionBlocked) {
+    _submitBtn.disabled = true;
+    _submitBtn.setAttribute('aria-disabled', 'true');
+    document.getElementById('submission-unavailable-notice')?.removeAttribute('hidden');
+  }
 
   let currentState: FormState = 'idle';
 
@@ -65,7 +96,7 @@ function initInquiryForm() {
     // Manage form interactivity
     if (next === 'submitting') {
       setFormDisabled(true);
-      _submitBtn.textContent = 'Sending\u2026';
+      _submitBtn.textContent = 'Sending…';
       _submitBtn.setAttribute('aria-busy', 'true');
     } else if (next === 'idle') {
       setFormDisabled(false);
@@ -78,7 +109,7 @@ function initInquiryForm() {
     if (announcer) {
       announcer.textContent = {
         idle:       '',
-        submitting: 'Sending your inquiry\u2026',
+        submitting: 'Sending your inquiry…',
         success:    'Your inquiry has been received.',
         failure:    'Your inquiry could not be sent. Please try again.',
       }[next];
@@ -97,6 +128,40 @@ function initInquiryForm() {
       'input, select, textarea, button'
     );
     controls.forEach((el) => { el.disabled = disabled; });
+  }
+
+  // ── Turnstile ──────────────────────────────────────────────────────────
+  // The widget only exists in the DOM when hasTurnstile is true (see
+  // InquiryForm.astro). window.onSignalHarborTurnstileLoad is called by
+  // Cloudflare's script once it has loaded, via the ?onload= callback param.
+  const turnstileContainer = document.getElementById('turnstile-widget');
+
+  if (hasTurnstile && turnstileContainer) {
+    window.onSignalHarborTurnstileLoad = function () {
+      if (!window.turnstile) return;
+      turnstileWidgetId = window.turnstile.render(turnstileContainer, {
+        sitekey: SITE.turnstileSiteKey,
+        callback: (token: string) => {
+          turnstileToken = token;
+          clearTurnstileError();
+        },
+        'expired-callback': () => {
+          turnstileToken = '';
+        },
+        'error-callback': () => {
+          turnstileToken = '';
+        },
+      });
+    };
+  }
+
+  function showTurnstileError(message: string) {
+    const errorEl = document.getElementById('turnstile-error');
+    if (errorEl) errorEl.textContent = message;
+  }
+
+  function clearTurnstileError() {
+    showTurnstileError('');
   }
 
   // ── Validation ─────────────────────────────────────────────────────────
@@ -156,6 +221,16 @@ function initInquiryForm() {
       }
     });
 
+    // Turnstile token is a separate required condition, only when the
+    // widget is actually configured (see hasTurnstile above).
+    if (hasTurnstile && !turnstileToken) {
+      showTurnstileError('Please complete the verification challenge before submitting.');
+      if (!firstError) firstError = turnstileContainer;
+      valid = false;
+    } else {
+      clearTurnstileError();
+    }
+
     if (firstError) (firstError as HTMLElement).focus();
     return valid;
   }
@@ -171,22 +246,75 @@ function initInquiryForm() {
   });
 
   // ── Submission ──────────────────────────────────────────────────────────
-  async function simulateSubmit(): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, SIMULATE_DELAY_MS));
-    if (previewFailure) throw new Error('Simulated failure (preview mode)');
+  function buildPayload(): InquiryPayload {
+    const data = new FormData(_form);
+    const field = (key: string) => String(data.get(key) ?? '').trim();
+
+    const message = [
+      `Role: ${field('role')}`,
+      `Nature of inquiry: ${field('nature')}`,
+      `Preferred timing: ${field('timing') || 'No preference'}`,
+      `Referral: ${field('referral') || 'Not specified'}`,
+      '',
+      field('description'),
+    ].join('\n');
+
+    return {
+      name: field('name'),
+      email: field('email'),
+      organization: field('organization'),
+      message,
+      website: field('website'), // honeypot — must stay empty for legitimate users
+      turnstileToken,
+    };
+  }
+
+  async function submitInquiry(payload: InquiryPayload): Promise<void> {
+    const response = await fetch(SITE.formEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    let data: { success?: boolean } = {};
+    try {
+      data = await response.json();
+    } catch {
+      // Non-JSON or empty response body — treated as failure below.
+    }
+
+    if (response.status !== 200 || data.success !== true) {
+      throw new Error(`Inquiry submission failed (status ${response.status})`);
+    }
+  }
+
+  function resetAfterSuccess() {
+    _form.reset();
+    turnstileToken = '';
+    if (hasTurnstile && window.turnstile) {
+      window.turnstile.reset(turnstileWidgetId);
+    }
   }
 
   async function handleSubmit(e: SubmitEvent) {
     e.preventDefault();
+    // Defense in depth: the disabled submit button already prevents this
+    // in practice, but a disabled button doesn't stop every path that can
+    // fire a form "submit" event (e.g. pressing Enter in a text field).
+    if (submissionBlocked) return;
     if (currentState === 'submitting') return;
     if (!validateForm()) return;
 
     setState('submitting');
 
     try {
-      // PRODUCTION BOUNDARY: replace simulateSubmit() with real fetch
-      await simulateSubmit();
+      if (previewFailure) {
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+        throw new Error('Simulated failure (preview mode)');
+      }
+      await submitInquiry(buildPayload());
       setState('success');
+      resetAfterSuccess();
     } catch {
       setState('failure');
     }
@@ -194,7 +322,7 @@ function initInquiryForm() {
 
   form.addEventListener('submit', handleSubmit);
 
-  // Try-again button resets to idle
+  // Try-again button resets to idle without clearing the user's entries
   const retryBtn = document.getElementById('form-retry');
   retryBtn?.addEventListener('click', () => {
     setState('idle');

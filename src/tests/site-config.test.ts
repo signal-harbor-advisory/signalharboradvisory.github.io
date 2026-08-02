@@ -7,7 +7,7 @@ import { describe, it, expect } from 'vitest';
 
 // Import the config values we want to validate.
 // Vitest runs in Node, so we import the TS module directly.
-import { SITE, hasLinkedIn, hasProfessionalEmail, hasFormEndpoint } from '../config/site.ts';
+import { SITE, hasLinkedIn, hasProfessionalEmail, hasFormEndpoint, hasTurnstile } from '../config/site.ts';
 
 describe('SITE config shape', () => {
   it('has a name string', () => {
@@ -49,24 +49,25 @@ describe('SITE placeholder detection', () => {
     }
   });
 
-  it('hasProfessionalEmail is boolean', () => {
+  it('hasProfessionalEmail is true iff professionalEmail is a non-empty string', () => {
     expect(typeof hasProfessionalEmail).toBe('boolean');
+    expect(hasProfessionalEmail).toBe((SITE.professionalEmail as string).length > 0);
   });
 
-  it('hasProfessionalEmail is false when professionalEmail is empty string', () => {
-    if (SITE.professionalEmail === '') {
-      expect(hasProfessionalEmail).toBe(false);
-    }
-  });
-
-  it('hasFormEndpoint is boolean', () => {
+  it('hasFormEndpoint is true iff formEndpoint is a non-empty string', () => {
     expect(typeof hasFormEndpoint).toBe('boolean');
+    expect(hasFormEndpoint).toBe((SITE.formEndpoint as string).length > 0);
   });
 
-  it('hasFormEndpoint is false when formEndpoint is empty string', () => {
-    if (SITE.formEndpoint === '') {
-      expect(hasFormEndpoint).toBe(false);
+  it('when formEndpoint is configured it is a real https URL', () => {
+    if (hasFormEndpoint) {
+      expect(SITE.formEndpoint).toMatch(/^https:\/\//);
     }
+  });
+
+  it('hasTurnstile is true iff turnstileSiteKey is a non-empty string', () => {
+    expect(typeof hasTurnstile).toBe('boolean');
+    expect(hasTurnstile).toBe(SITE.turnstileSiteKey.length > 0);
   });
 });
 

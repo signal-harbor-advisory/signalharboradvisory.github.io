@@ -3,7 +3,7 @@
 // Four-state accessible inquiry form.
 // Local review: simulated submission — no network request.
 // Production boundary: documented in src/scripts/form.ts
-import { SITE, hasProfessionalEmail } from '../../config/site';
+import { SITE, hasProfessionalEmail, hasTurnstile } from '../../config/site';
 
 const natureOptions = [
   'Technology strategy or transformation',
@@ -62,6 +62,19 @@ const referralOptions = [
     aria-label="Advisory inquiry form"
     class="inquiry-form"
   >
+    <!-- Honeypot — must stay empty. Hidden from sighted users and screen
+         readers alike; present only to catch bots that fill every field. -->
+    <div class="hp-field" aria-hidden="true">
+      <label for="f-website">Website</label>
+      <input
+        type="text"
+        id="f-website"
+        name="website"
+        tabindex="-1"
+        autocomplete="off"
+      />
+    </div>
+
     <!-- Row: Name + Organization -->
     <div class="form-row form-row--2col">
       <div class="form-field">
@@ -220,6 +233,28 @@ const referralOptions = [
       <span aria-hidden="true" class="required-mark">*</span> Required field
     </p>
 
+    {hasTurnstile && (
+      <div class="form-field">
+        <div
+          id="turnstile-widget"
+          data-sitekey={SITE.turnstileSiteKey}
+        ></div>
+        <p id="turnstile-error" class="field-error" role="alert"></p>
+      </div>
+    )}
+
+    <!-- Shown instead of allowing submission when Turnstile verification
+         is not configured for this build (production safeguard — the
+         Worker requires a valid token and would reject the submission
+         anyway). Hidden by default; unhidden by form.ts only when the
+         submission-blocked condition is actually met at runtime. -->
+    {hasProfessionalEmail && (
+      <p id="submission-unavailable-notice" class="form-notice" hidden>
+        Online submission is temporarily unavailable. Please reach {SITE.name} directly at{' '}
+        <a href={`mailto:${SITE.professionalEmail}`} class="failure-email">{SITE.professionalEmail}</a>.
+      </p>
+    )}
+
     <button type="submit" id="form-submit" class="btn btn--primary form-submit">
       Send Inquiry
     </button>
@@ -287,9 +322,31 @@ const referralOptions = [
   </div>
 </div>
 
+{hasTurnstile && (
+  <script
+    is:inline
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onSignalHarborTurnstileLoad"
+    async
+    defer
+  ></script>
+)}
 <script src="../../scripts/form.ts"></script>
 
 <style>
+  /* Honeypot — hidden from sighted users and assistive tech, but still
+     present in the DOM so naive bots that fill every field trip it. */
+  .hp-field {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
   /* ── Form layout ───────────────────────────────────────────────────────── */
   .form-instruction {
     font-size: var(--text-sm);
@@ -298,6 +355,16 @@ const referralOptions = [
     padding: var(--sp-4) var(--sp-5);
     background-color: var(--color-soft-stone);
     border-left: 3px solid var(--color-muted-bronze);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  .form-notice {
+    font-size: var(--text-sm);
+    color: var(--color-charcoal);
+    max-width: none;
+    padding: var(--sp-4) var(--sp-5);
+    background-color: var(--color-soft-stone);
+    border-left: 3px solid var(--color-error);
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
   }
 

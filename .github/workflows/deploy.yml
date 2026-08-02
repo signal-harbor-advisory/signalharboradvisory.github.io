@@ -26,6 +26,13 @@ jobs:
         uses: withastro/action@v3
         with:
           node-version: 22
+        env:
+          # Public Turnstile site key (not the secret key). Set as a
+          # repository variable at Settings → Secrets and variables →
+          # Actions → Variables. Safe to expose — it's baked into the
+          # client bundle by design. Empty until set, which the site
+          # handles gracefully (Turnstile widget just doesn't render).
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
 
   deploy:
     needs: build
