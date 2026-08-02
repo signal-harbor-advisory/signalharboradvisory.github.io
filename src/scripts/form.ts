@@ -305,6 +305,12 @@ function initInquiryForm() {
     if (currentState === 'submitting') return;
     if (!validateForm()) return;
 
+    // Capture field values BEFORE disabling the form. setState('submitting')
+    // disables every input/select/textarea for the UX, and FormData excludes
+    // disabled controls per spec — building the payload after that point
+    // would silently produce empty fields.
+    const payload = buildPayload();
+
     setState('submitting');
 
     try {
@@ -312,7 +318,7 @@ function initInquiryForm() {
         await new Promise((resolve) => setTimeout(resolve, 1200));
         throw new Error('Simulated failure (preview mode)');
       }
-      await submitInquiry(buildPayload());
+      await submitInquiry(payload);
       setState('success');
       resetAfterSuccess();
     } catch {
